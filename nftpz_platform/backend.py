@@ -39,12 +39,18 @@ def invoke(request, server_directory, authority, schema_hash, authority_ledger, 
     command = [sys.executable, "-m", "nftpz_platform.worker", "--directory", str(server_directory),
                "--public-key", authority.public_key, "--ledger", str(server_directory.parent / "worker.sqlite")]
     start = perf_counter()
-    result = subprocess.run(command, input=canonical(envelope).decode(), text=True, capture_output=True,
-                            cwd=server_directory, env=env, timeout=1800)
-    if result.returncode:
-        raise RuntimeError(f"ciphertext worker failed: {result.stderr[-2500:]}")
-    response = json.loads(result.stdout)
-    if response["pid"] == os.getpid() or response["manifest_hash"] != digest(manifest) or response["job_id"] != manifest["job_id"]:
+    azure_config = os.environ.get("NFTPZ_AZURE_CONFIG")
+    if azure_config:
+        from .azure_transport import dispatch
+        response = dispatch(azure_config, envelope, server_directory, authority.public_key)
+    else:
+        result = subprocess.run(command, input=canonical(envelope).decode(), text=True, capture_output=True,
+                                cwd=server_directory, env=env, timeout=1800)
+        if result.returncode:
+            raise RuntimeError(f"ciphertext worker failed: {result.stderr[-2500:]}")
+        response = json.loads(result.stdout)
+        response["execution_environment"] = "local subprocess; not sandboxed"
+    if (not azure_config and response["pid"] == os.getpid()) or response["manifest_hash"] != digest(manifest) or response["job_id"] != manifest["job_id"]:
         raise Denied("mismatched result envelope")
     response["process_seconds"] = perf_counter() - start
     response["request_bytes"] = len(canonical(envelope))
@@ -54,7 +60,7 @@ def invoke(request, server_directory, authority, schema_hash, authority_ledger, 
     return response, manifest
 
 
-def compile_trainer(nfeatures, seed=42, p_error=0.01):
+def compile_trainer(nfeatures, seed=42, p_error=1e-6):
     from concrete.ml.sklearn import SGDClassifier
     from concrete import fhe
     # Public synthetic extremes, never pooled private records for compilation.
@@ -148,7 +154,9 @@ def encrypted_count(counts, schema_hash, authority_ledger, bound=16383, query_sp
     with tempfile.TemporaryDirectory(prefix="nftpz-query-") as temp:
         server_dir = Path(temp) / "cloud"
         server_dir.mkdir()
-        circuit.server.save(server_dir / "server.zip")
+        # Portable IR, not a Mac-only native library: owner and cloud may have
+        # different OS/CPU architectures. Concrete ML's export does this too.
+        circuit.server.save(server_dir / "server.zip", via_mlir=True)
         request = {"operation": "aggregate", "evaluation_keys": encode(circuit.client.evaluation_keys.serialize()),
                    "inputs": [encode(v) for v in inputs]}
         response, manifest = invoke(request, server_dir, Authority(), schema_hash, authority_ledger,

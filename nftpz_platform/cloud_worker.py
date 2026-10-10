@@ -11,6 +11,7 @@ import tempfile
 from .storage import AzureBlobStore, object_name
 from .worker import execute
 from .security import canonical
+from .wire import SITES, hydrate_silos
 
 
 def main():
@@ -29,6 +30,9 @@ def main():
     envelope = json.loads(source.read(f"{job}/envelope.json"))
     if envelope["approval"]["manifest"]["job_id"] != job:
         raise ValueError("queue identity differs from approved job")
+    if "layout" in envelope:
+        objects = {site: json.loads(source.read(f"{job}/{site}.json")) for site in SITES}
+        envelope = hydrate_silos(envelope, objects)
     with tempfile.TemporaryDirectory(prefix="ciphertext-worker-") as temp:
         directory = Path(temp)
         (directory / "server.zip").write_bytes(source.read(f"{job}/server.zip"))

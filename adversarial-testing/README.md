@@ -12,6 +12,14 @@ and query budget.
 The catalog in [`attack-catalog.md`](attack-catalog.md) is the source of truth
 for the attacks and papers that the benchmark will implement or adapt.
 
+The executable subset and exact limitations are tracked in
+[`implemented-methods.md`](implemented-methods.md). The running platform uses
+Concrete ML encrypted cloud training, not hospital-side training or plaintext
+gradient sharing. Gradient attacks in the broader catalog are positive controls
+or future-protocol tests; a missing plaintext-gradient surface is not an
+empirical cryptographic-security result. Released models/counts and visible
+site/schedule metadata remain relevant attack surfaces.
+
 ## Security claim under test
 
 For each mechanism and workload, measure the joint frontier:

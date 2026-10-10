@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-10",
+  "scope": "Dedicated project-only Azure CPU worker; measured probes and control-plane configuration, not attestation or a penetration test",
+  "worker_source_package_sha256": "7cbb99e5ac8739b5cd5a20c673d10055b392501562103c04a8fafb22684bd580",
+  "runtime": {
+    "os": "Ubuntu 24.04",
+    "python": "3.12.3",
+    "vm_size": "Standard_D4s_v5",
+    "run_as": "unprivileged nftpzoperator",
+    "public_ip": false,
+    "final_power_state": "VM deallocated"
+  },
+  "worker_identity_roles": [
+    {"role": "Storage Blob Data Reader", "scope": "project ciphertext-jobs container"},
+    {"role": "Storage Blob Data Contributor", "scope": "project ciphertext-results container"}
+  ],
+  "ciphertext_storage_configuration": {
+    "shared_key_authentication": false,
+    "anonymous_blob_access": false,
+    "minimum_tls": "TLS1_2",
+    "firewall_default": "Deny",
+    "gateway_ip_rule_count": 1,
+    "private_endpoint_count": 1
+  },
+  "original_owner_storage_configuration": {
+    "public_network_access": "Disabled",
+    "anonymous_blob_access": false,
+    "modified_by_this_deployment": false
+  },
+  "worker_network_configuration": {
+    "bootstrap_https_to_internet": "Deny",
+    "allowed_data_destination": "project blob private endpoint subnet on TCP 443",
+    "other_outbound": "Deny, subject to Azure platform exceptions",
+    "vnet_peering": false
+  },
+  "measured_worker_checks": {
+    "ciphertext_inputs_readable": true,
+    "worker_cannot_modify_approved_jobs": true,
+    "owner_source_account_inaccessible": true,
+    "internet_https_egress_denied": true,
+    "no_owner_dataset_mount": true,
+    "no_customer_private_output_mount": true
+  },
+  "probe_limits": [
+    "Input-container write returned HTTP 403; original owner-account access was denied.",
+    "Internet probe was one HTTPS endpoint; the control-plane NSG deny rules were checked separately.",
+    "Mount probes check the two expected paths, not a forensic scan of the VM.",
+    "No unrelated project was modified or granted to the worker. Role review, not exhaustive probing of unrelated resources, establishes scope.",
+    "Contributor on results includes delete permission; this is not a custom write-only role.",
+    "No teammate identities or permissions were created; no SAS links or personal credentials were shared.",
+    "Deallocation stops compute allocation; retained disks, storage and private networking can still incur charges."
+  ],
+  "independent_query": {
+    "dataset": "synthea",
+    "query": {"field": "age_at_2026", "comparison": "ge", "value": 65},
+    "sites": 4,
+    "total_records": 12,
+    "oracle_absolute_error": 0,
+    "compute_seconds": 0.013951593000001594,
+    "dispatch_seconds": 38.25894283299567,
+    "transport": "initial inline envelope with four encrypted contributions; precedes the separate-silo-blob transport"
+  },
+  "four_blob_training_and_count_run": "4c3f55699d334db68ac13d2c3851f309",
+  "cloud_measurements": "cloud-evidence.json",
+  "known_fixed_failure": "The first cloud count used a Mac-native server archive, which failed on Linux. Export with via_mlir=True fixed portability; the succeeding independent query and four-blob cloud benchmark were actually executed."
+}

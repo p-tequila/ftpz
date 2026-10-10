@@ -25,7 +25,18 @@ def utility(model, X, y):
             "brier": float(brier_score_loss(y, p)), "test_rows": len(y), "test_positives": int(y.sum())}
 
 
-def run_dataset(name, mode, steps, seed, authority_ledger, cache, inference_rows, p_error=.01):
+def engineering_checks(fhe_result, query_result):
+    checks = {
+        "exact_training_quantized_parity": fhe_result["max_weight_difference_vs_quantized"] < 1e-8,
+        "exact_query_parity": query_result["absolute_error"] == 0,
+        "wrong_key_rejected_empirically": fhe_result["training_audit"]["wrong_key_recovery_failed"],
+    }
+    if "inference" in fhe_result:
+        checks["exact_inference_quantized_parity"] = fhe_result["inference"]["max_difference_vs_quantized"] < 1e-8
+    return checks
+
+
+def run_dataset(name, mode, steps, seed, authority_ledger, cache, inference_rows, p_error=1e-6):
     from .backend import compile_trainer, encrypted_count, encrypted_training, quantized_training
     from diabetes_demo.crypto import infer, timed
     table = load(name)
@@ -93,9 +104,7 @@ def run_dataset(name, mode, steps, seed, authority_ledger, cache, inference_rows
     total, query_audit = encrypted_count(counts, row["contract_hash"], authority_ledger, query_spec=query.to_dict())
     row["query"].update({"backend": "real FHE", "released_total": total,
                          "absolute_error": abs(total - reference), "audit": query_audit})
-    row["engineering_checks"] = {"exact_training_quantized_parity": train_difference < 1e-8,
-                                  "exact_query_parity": total == reference,
-                                  "wrong_key_rejected_empirically": audit["wrong_key_recovery_failed"]}
+    row["engineering_checks"] = engineering_checks(row["fhe"], row["query"])
     if not all(row["engineering_checks"].values()):
         row["status"] = "failed_engineering_check"
     return row
@@ -123,7 +132,7 @@ def main():
     parser.add_argument("--steps", type=int, default=4)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--inference-rows", type=int, default=2)
-    parser.add_argument("--p-error", type=float, default=.01, help="Concrete ML training PBS numerical error setting")
+    parser.add_argument("--p-error", type=float, default=1e-6, help="Concrete ML training PBS numerical error setting")
     parser.add_argument("--output", type=Path, default=Path("outputs/platform"))
     args = parser.parse_args()
     if args.steps < 4 or args.steps > 16 or args.inference_rows < 0 or not 0 < args.p_error < 1:
@@ -146,7 +155,7 @@ def main():
               "limitations": [
                   "Customer-controlled shared-key encryption gateway; not multi-key or threshold FHE.",
                   "Cloud worker receives ciphertexts and evaluation keys, but local same-user processes are NOT an OS isolation boundary.",
-                  "Azure container identity/private network deployment is separate and not proven by these local results.",
+                  "Check each workload's execution_environment; local runs do not prove Azure isolation. Inference probes remain local.",
                   "Four tiny updates test the pipeline, not converged clinical utility. Group-held-out splits, public fixed normalization bounds.",
                   "FHE hides computation inputs, not approved outputs. Exact counts remain vulnerable to differencing; no differential privacy.",
                   "FHE does not prove worker correctness or stop malicious owner poisoning, traffic analysis, or compromised key authorities.",

@@ -12,8 +12,12 @@ bash scripts/platform.sh --mode baseline
 bash scripts/platform.sh --mode execute --datasets diabetes
 ```
 
+[Executed results](benchmarks/results/2026-10-10/README.md): five real-FHE dataset
+checks, four-silo Azure encrypted training/counting, deployed access probes and
+24 passing unit/regression tests. The test VM is deallocated.
+
 See the [implemented attack methods](adversarial-testing/implemented-methods.md)
-and [Azure deployment scaffold](deployment/README.md). The demo below is retained
+and [Azure worker deployment](deployment/README.md). The demo below is retained
 unchanged; its ten-feature/train-fitted-scaler setup differs from the platform's
 fixed-public-bounds benchmark. Local subprocesses are not a production sandbox,
 and the Azure deployment is not automatically provisioned by these commands.

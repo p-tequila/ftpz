@@ -1,0 +1,2438 @@
+{
+  "runs": [
+    {
+      "run_id": "c950c05b53964c869764f6d51563c7e9",
+      "mode": "execute",
+      "seed": 42,
+      "git_revision": "63d4cbb93bfd8ef966648da1d7c1cd0bf36b0574",
+      "source_sha256": {
+        "nftpz_platform/__init__.py": "ed16dcb1914488338ea16e6144c7c8b4a0dba9a7927117c6248421f3c3bba7a9",
+        "nftpz_platform/__main__.py": "abb0778dcfc132ad2927f44db319ac79a96edf76b5ffebc16024bf4974efbd39",
+        "nftpz_platform/attacks.py": "73ac06b22102662f924d4589af5403387851200b421b8ad9782bac8359319e43",
+        "nftpz_platform/backend.py": "343d96d094eb45a6e55aae3dc9ea3da6e433cd10005446cbeb19c112d5a05a1d",
+        "nftpz_platform/benchmark.py": "770d7bfaff96da351961c74b01e5b0db248527be4a5feeedac445d7d411fc25c",
+        "nftpz_platform/cloud_worker.py": "2cfc92aef919e0afbb12941fc45d3a6e4a32124f9dc534e225afb2adbf415709",
+        "nftpz_platform/datasets.py": "457d75257e94f3c6c01c55a5c2ab805c5e35efe3cfe2746fe8af3d4c08254fab",
+        "nftpz_platform/manifest.py": "a6bde734afd9bc9e72efb8cf64aac2f40e7bad2843135dc52e315e0258193ee1",
+        "nftpz_platform/metrics.py": "641d9ebb68985dd0b836a98db5a75ab824a2b89d95b592b4df9d1dacdc32f94f",
+        "nftpz_platform/queries.py": "12cbcb307067d181ac1cd4d530d7733a2cb3b0d9087a6ace41d521197f233928",
+        "nftpz_platform/security.py": "1938197eed269f6835ef78364b8afcb54d807312fe2fb927d924f2846927d870",
+        "nftpz_platform/shadow_benchmark.py": "acbf3a71f2454b0213e5cd537593d4ada9cd8aea6dbacc1661781b5acf6207df",
+        "nftpz_platform/storage.py": "751bf29c4de5e900a3b459e34f9247de52adb3de61b1ff0f66b742e7ff2898ae",
+        "nftpz_platform/worker.py": "096b4f96b87f8d725be8b0ed4960b737e454324a44f37640f933717ed4f08847",
+        "diabetes_demo/__init__.py": "7f119c6502615e0debe7fac9dada4fa2f4fb3f0276c4c9cd219d28f44e22af7f",
+        "diabetes_demo/__main__.py": "5b35ec874b342af719b9e23c8a0206429ffa4472c38d085e57cd380d355e8b3a",
+        "diabetes_demo/crypto.py": "ca99bb75cc65f59b3a79490287aececd044285bf2aff80a61844575458295a15",
+        "diabetes_demo/data.py": "4a866df00b8307845422781e3f895f04d430a336fed504db37010bcc0fde995e",
+        "diabetes_demo/experiments.py": "1fb8f15bae31020ace778fee6a524078529ac723696d396284cf1add359a543e",
+        "diabetes_demo/predict.py": "206ac1ffe2a9b20262dcc706e3769c698897031d26e80cf00b44265d3903ea23",
+        "diabetes_demo/report.py": "1a4660e81c0a6e1ce12c48d7290e799c9f5ff0909040a4c6d2670347da3adabd",
+        "diabetes_demo/server.py": "5f985bcd0ce7b8b31010efabd2a7b2c129011a7b19b3110414f8c7b1f5787fab",
+        "diabetes_demo/weights.py": "3a6008e35f6560e9767334a272edf1cfee6b3c9ed9b9028e7384c3667ab569af"
+      },
+      "versions": {
+        "concrete-ml": "1.9.0",
+        "concrete-python": "2.10.0",
+        "numpy": "1.26.4",
+        "scikit-learn": "1.5.0"
+      },
+      "platform": "macOS-26.5-arm64-arm-64bit",
+      "python": "3.12.13",
+      "wall_seconds": 613.9972066250048,
+      "training_p_error": 0.01,
+      "policy_probes": [
+        {
+          "id": "unsigned-purpose-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unsigned-schema_hash-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unsigned-key_id-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "wrong-program",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "expired",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "ciphertext-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "untrusted-signer",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "missing-site",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-plaintext",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-secret_key",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-labels",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "job-replay",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "small-cohort",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unauthorized-reader",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "duplicate-release",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "query-budget",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "audit-hash-chain",
+          "passed": true,
+          "risk": [
+            "ORG"
+          ]
+        },
+        {
+          "id": "audit-tamper-detection",
+          "passed": true,
+          "risk": [
+            "ORG"
+          ]
+        }
+      ],
+      "output_leakage_control": {
+        "id": "adjacent-cohort-differencing",
+        "risk": [
+          "IND",
+          "BIO",
+          "ORG"
+        ],
+        "surface": "two released exact counts",
+        "query_budget": 2,
+        "unprotected_target_recovery": true,
+        "both_counts_pass_min_cohort_5": true,
+        "residual_risk": "OPEN",
+        "needed": "reviewed query families or correctly accounted DP; rate limiting is not DP"
+      }
+    },
+    {
+      "run_id": "893b6007a2bb4d01b92b094101cf9777",
+      "mode": "execute",
+      "seed": 42,
+      "git_revision": "9a7e9f967a5b0a83ee7a464faa7aeead0cce0f28",
+      "source_sha256": {
+        "nftpz_platform/__init__.py": "ed16dcb1914488338ea16e6144c7c8b4a0dba9a7927117c6248421f3c3bba7a9",
+        "nftpz_platform/__main__.py": "abb0778dcfc132ad2927f44db319ac79a96edf76b5ffebc16024bf4974efbd39",
+        "nftpz_platform/attacks.py": "73ac06b22102662f924d4589af5403387851200b421b8ad9782bac8359319e43",
+        "nftpz_platform/azure_transport.py": "fce415677808e0a21da8bafaa61d6427516e5c8b56a48c93d4fd7c3c9925bc69",
+        "nftpz_platform/backend.py": "a6ecce18c88b4adee115aabf25daa821ae222d757ecb7fb88cf2c0be7d44bbbb",
+        "nftpz_platform/benchmark.py": "81fabbe33c2d0b9866cbaa7bcf604a4325a6d43da31bd8735218be2757c3c204",
+        "nftpz_platform/cloud_worker.py": "2cfc92aef919e0afbb12941fc45d3a6e4a32124f9dc534e225afb2adbf415709",
+        "nftpz_platform/datasets.py": "457d75257e94f3c6c01c55a5c2ab805c5e35efe3cfe2746fe8af3d4c08254fab",
+        "nftpz_platform/manifest.py": "a6bde734afd9bc9e72efb8cf64aac2f40e7bad2843135dc52e315e0258193ee1",
+        "nftpz_platform/metrics.py": "641d9ebb68985dd0b836a98db5a75ab824a2b89d95b592b4df9d1dacdc32f94f",
+        "nftpz_platform/queries.py": "12cbcb307067d181ac1cd4d530d7733a2cb3b0d9087a6ace41d521197f233928",
+        "nftpz_platform/security.py": "1938197eed269f6835ef78364b8afcb54d807312fe2fb927d924f2846927d870",
+        "nftpz_platform/shadow_benchmark.py": "acbf3a71f2454b0213e5cd537593d4ada9cd8aea6dbacc1661781b5acf6207df",
+        "nftpz_platform/storage.py": "751bf29c4de5e900a3b459e34f9247de52adb3de61b1ff0f66b742e7ff2898ae",
+        "nftpz_platform/worker.py": "096b4f96b87f8d725be8b0ed4960b737e454324a44f37640f933717ed4f08847",
+        "diabetes_demo/__init__.py": "7f119c6502615e0debe7fac9dada4fa2f4fb3f0276c4c9cd219d28f44e22af7f",
+        "diabetes_demo/__main__.py": "5b35ec874b342af719b9e23c8a0206429ffa4472c38d085e57cd380d355e8b3a",
+        "diabetes_demo/crypto.py": "ca99bb75cc65f59b3a79490287aececd044285bf2aff80a61844575458295a15",
+        "diabetes_demo/data.py": "4a866df00b8307845422781e3f895f04d430a336fed504db37010bcc0fde995e",
+        "diabetes_demo/experiments.py": "1fb8f15bae31020ace778fee6a524078529ac723696d396284cf1add359a543e",
+        "diabetes_demo/predict.py": "206ac1ffe2a9b20262dcc706e3769c698897031d26e80cf00b44265d3903ea23",
+        "diabetes_demo/report.py": "1a4660e81c0a6e1ce12c48d7290e799c9f5ff0909040a4c6d2670347da3adabd",
+        "diabetes_demo/server.py": "5f985bcd0ce7b8b31010efabd2a7b2c129011a7b19b3110414f8c7b1f5787fab",
+        "diabetes_demo/weights.py": "3a6008e35f6560e9767334a272edf1cfee6b3c9ed9b9028e7384c3667ab569af"
+      },
+      "versions": {
+        "concrete-ml": "1.9.0",
+        "concrete-python": "2.10.0",
+        "numpy": "1.26.4",
+        "scikit-learn": "1.5.0"
+      },
+      "platform": "macOS-26.5-arm64-arm-64bit",
+      "python": "3.12.13",
+      "wall_seconds": 423.7959100420121,
+      "training_p_error": 1e-06,
+      "policy_probes": [
+        {
+          "id": "unsigned-purpose-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unsigned-schema_hash-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unsigned-key_id-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "wrong-program",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "expired",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "ciphertext-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "untrusted-signer",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "missing-site",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-plaintext",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-secret_key",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-labels",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "job-replay",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "small-cohort",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unauthorized-reader",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "duplicate-release",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "query-budget",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "audit-hash-chain",
+          "passed": true,
+          "risk": [
+            "ORG"
+          ]
+        },
+        {
+          "id": "audit-tamper-detection",
+          "passed": true,
+          "risk": [
+            "ORG"
+          ]
+        }
+      ],
+      "output_leakage_control": {
+        "id": "adjacent-cohort-differencing",
+        "risk": [
+          "IND",
+          "BIO",
+          "ORG"
+        ],
+        "surface": "two released exact counts",
+        "query_budget": 2,
+        "unprotected_target_recovery": true,
+        "both_counts_pass_min_cohort_5": true,
+        "residual_risk": "OPEN",
+        "needed": "reviewed query families or correctly accounted DP; rate limiting is not DP"
+      }
+    },
+    {
+      "run_id": "1cf5d37a39e24c49be9073421acd6e3c",
+      "mode": "execute",
+      "seed": 42,
+      "git_revision": "9a7e9f967a5b0a83ee7a464faa7aeead0cce0f28",
+      "source_sha256": {
+        "nftpz_platform/__init__.py": "ed16dcb1914488338ea16e6144c7c8b4a0dba9a7927117c6248421f3c3bba7a9",
+        "nftpz_platform/__main__.py": "abb0778dcfc132ad2927f44db319ac79a96edf76b5ffebc16024bf4974efbd39",
+        "nftpz_platform/attacks.py": "73ac06b22102662f924d4589af5403387851200b421b8ad9782bac8359319e43",
+        "nftpz_platform/azure_transport.py": "fce415677808e0a21da8bafaa61d6427516e5c8b56a48c93d4fd7c3c9925bc69",
+        "nftpz_platform/backend.py": "a6ecce18c88b4adee115aabf25daa821ae222d757ecb7fb88cf2c0be7d44bbbb",
+        "nftpz_platform/benchmark.py": "81fabbe33c2d0b9866cbaa7bcf604a4325a6d43da31bd8735218be2757c3c204",
+        "nftpz_platform/cloud_worker.py": "2cfc92aef919e0afbb12941fc45d3a6e4a32124f9dc534e225afb2adbf415709",
+        "nftpz_platform/datasets.py": "457d75257e94f3c6c01c55a5c2ab805c5e35efe3cfe2746fe8af3d4c08254fab",
+        "nftpz_platform/manifest.py": "a6bde734afd9bc9e72efb8cf64aac2f40e7bad2843135dc52e315e0258193ee1",
+        "nftpz_platform/metrics.py": "641d9ebb68985dd0b836a98db5a75ab824a2b89d95b592b4df9d1dacdc32f94f",
+        "nftpz_platform/queries.py": "12cbcb307067d181ac1cd4d530d7733a2cb3b0d9087a6ace41d521197f233928",
+        "nftpz_platform/security.py": "1938197eed269f6835ef78364b8afcb54d807312fe2fb927d924f2846927d870",
+        "nftpz_platform/shadow_benchmark.py": "acbf3a71f2454b0213e5cd537593d4ada9cd8aea6dbacc1661781b5acf6207df",
+        "nftpz_platform/storage.py": "751bf29c4de5e900a3b459e34f9247de52adb3de61b1ff0f66b742e7ff2898ae",
+        "nftpz_platform/worker.py": "096b4f96b87f8d725be8b0ed4960b737e454324a44f37640f933717ed4f08847",
+        "diabetes_demo/__init__.py": "7f119c6502615e0debe7fac9dada4fa2f4fb3f0276c4c9cd219d28f44e22af7f",
+        "diabetes_demo/__main__.py": "5b35ec874b342af719b9e23c8a0206429ffa4472c38d085e57cd380d355e8b3a",
+        "diabetes_demo/crypto.py": "ca99bb75cc65f59b3a79490287aececd044285bf2aff80a61844575458295a15",
+        "diabetes_demo/data.py": "4a866df00b8307845422781e3f895f04d430a336fed504db37010bcc0fde995e",
+        "diabetes_demo/experiments.py": "1fb8f15bae31020ace778fee6a524078529ac723696d396284cf1add359a543e",
+        "diabetes_demo/predict.py": "206ac1ffe2a9b20262dcc706e3769c698897031d26e80cf00b44265d3903ea23",
+        "diabetes_demo/report.py": "1a4660e81c0a6e1ce12c48d7290e799c9f5ff0909040a4c6d2670347da3adabd",
+        "diabetes_demo/server.py": "5f985bcd0ce7b8b31010efabd2a7b2c129011a7b19b3110414f8c7b1f5787fab",
+        "diabetes_demo/weights.py": "3a6008e35f6560e9767334a272edf1cfee6b3c9ed9b9028e7384c3667ab569af"
+      },
+      "versions": {
+        "concrete-ml": "1.9.0",
+        "concrete-python": "2.10.0",
+        "numpy": "1.26.4",
+        "scikit-learn": "1.5.0"
+      },
+      "platform": "macOS-26.5-arm64-arm-64bit",
+      "python": "3.12.13",
+      "wall_seconds": 1393.4297270829557,
+      "training_p_error": 1e-06,
+      "policy_probes": [
+        {
+          "id": "unsigned-purpose-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unsigned-schema_hash-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unsigned-key_id-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "wrong-program",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "expired",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "ciphertext-tamper",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "untrusted-signer",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "missing-site",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-plaintext",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-secret_key",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "reject-labels",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "job-replay",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "small-cohort",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "unauthorized-reader",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "duplicate-release",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "query-budget",
+          "blocked": true,
+          "risk": [
+            "IND",
+            "ORG"
+          ]
+        },
+        {
+          "id": "audit-hash-chain",
+          "passed": true,
+          "risk": [
+            "ORG"
+          ]
+        },
+        {
+          "id": "audit-tamper-detection",
+          "passed": true,
+          "risk": [
+            "ORG"
+          ]
+        }
+      ],
+      "output_leakage_control": {
+        "id": "adjacent-cohort-differencing",
+        "risk": [
+          "IND",
+          "BIO",
+          "ORG"
+        ],
+        "surface": "two released exact counts",
+        "query_budget": 2,
+        "unprotected_target_recovery": true,
+        "both_counts_pass_min_cohort_5": true,
+        "residual_risk": "OPEN",
+        "needed": "reviewed query families or correctly accounted DP; rate limiting is not DP"
+      }
+    }
+  ],
+  "measurements": [
+    {
+      "run_id": "c950c05b53964c869764f6d51563c7e9",
+      "dataset": "diabetes",
+      "status": "failed_engineering_check",
+      "p_error": 0.01,
+      "rows": 442,
+      "groups": 442,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.5056179775280899,
+        "f1": 0.0,
+        "auroc": 0.7878787878787878,
+        "auprc": 0.78808149600254,
+        "brier": 0.246843372114519,
+        "test_rows": 89,
+        "test_positives": 44
+      },
+      "quantized": {
+        "accuracy": 0.5393258426966292,
+        "f1": 0.1276595744680851,
+        "auroc": 0.7931818181818182,
+        "auprc": 0.7940320982901907,
+        "brier": 0.24633100185312945,
+        "test_rows": 89,
+        "test_positives": 44
+      },
+      "fhe": {
+        "accuracy": 0.5056179775280899,
+        "f1": 0.0,
+        "auroc": 0.7941919191919191,
+        "auprc": 0.7948396082116838,
+        "brier": 0.24833612779428496,
+        "test_rows": 89,
+        "test_positives": 44
+      },
+      "max_weight_error": 0.15096390545714455,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": false,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 80.06674137507798,
+      "training_dispatch_seconds": 98.40202733298065,
+      "training_request_bytes": 219735696,
+      "evaluation_key_bytes": 164795968,
+      "execution_environment": "local subprocess",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": null,
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 121,
+          "metrics": {
+            "auc": 0.5252808988764044,
+            "auc_bootstrap_95pct": [
+              0.4127370084269663,
+              0.6440133426966291
+            ],
+            "empirical_best_advantage": 0.0972612359550562,
+            "tpr_at_fpr_01": 0.03125,
+            "nonmember_count": 89,
+            "member_count": 32,
+            "fpr_resolution": 0.011235955056179775,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 64,
+          "shadow_prediction_queries": 2048,
+          "metrics": {
+            "auc": 0.55859375,
+            "auc_bootstrap_95pct": [
+              0.33984375,
+              0.73447265625
+            ],
+            "empirical_best_advantage": 0.3125,
+            "tpr_at_fpr_01": 0.0625,
+            "nonmember_count": 16,
+            "member_count": 16,
+            "fpr_resolution": 0.0625,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0625,
+            "heldout_fpr_at_calibrated_threshold": 0.0625,
+            "calibration_nonmembers": 16
+          },
+          "seconds": 0.15776520798681304,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 121,
+          "metrics": {
+            "auc": 0.5210674157303371,
+            "auc_bootstrap_95pct": [
+              0.40610955056179776,
+              0.638259304775281
+            ],
+            "empirical_best_advantage": 0.105688202247191,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 89,
+            "member_count": 32,
+            "fpr_resolution": 0.011235955056179775,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 64,
+          "shadow_prediction_queries": 2048,
+          "metrics": {
+            "auc": 0.52734375,
+            "auc_bootstrap_95pct": [
+              0.32421875,
+              0.7504882812500001
+            ],
+            "empirical_best_advantage": 0.25,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 16,
+            "member_count": 16,
+            "fpr_resolution": 0.0625,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 16
+          },
+          "seconds": 0.1505147090065293,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "c950c05b53964c869764f6d51563c7e9",
+      "dataset": "synthea",
+      "status": "completed",
+      "p_error": 0.01,
+      "rows": 108,
+      "groups": 108,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.6818181818181818,
+        "f1": 0.0,
+        "auroc": 0.8952380952380952,
+        "auprc": 0.7647186147186147,
+        "brier": 0.20346815275469374,
+        "test_rows": 22,
+        "test_positives": 7
+      },
+      "quantized": {
+        "accuracy": 0.6818181818181818,
+        "f1": 0.0,
+        "auroc": 0.9047619047619048,
+        "auprc": 0.7658730158730158,
+        "brier": 0.2031988930710231,
+        "test_rows": 22,
+        "test_positives": 7
+      },
+      "fhe": {
+        "accuracy": 0.6818181818181818,
+        "f1": 0.0,
+        "auroc": 0.9047619047619048,
+        "auprc": 0.7658730158730158,
+        "brier": 0.2031988930710231,
+        "test_rows": 22,
+        "test_positives": 7
+      },
+      "max_weight_error": 0.0,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": true,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 62.11477245896822,
+      "training_dispatch_seconds": 79.46221187501214,
+      "training_request_bytes": 219735696,
+      "evaluation_key_bytes": 164795968,
+      "execution_environment": "local subprocess",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": null,
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 54,
+          "metrics": {
+            "auc": 0.49360795454545453,
+            "auc_bootstrap_95pct": [
+              0.31741832386363633,
+              0.6704723011363636
+            ],
+            "empirical_best_advantage": 0.09375,
+            "tpr_at_fpr_01": 0.09375,
+            "nonmember_count": 22,
+            "member_count": 32,
+            "fpr_resolution": 0.045454545454545456,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 44,
+          "shadow_prediction_queries": 1408,
+          "metrics": {
+            "auc": 0.5537190082644629,
+            "auc_bootstrap_95pct": [
+              0.3140495867768595,
+              0.7607438016528927
+            ],
+            "empirical_best_advantage": 0.18181818181818182,
+            "tpr_at_fpr_01": 0.09090909090909091,
+            "nonmember_count": 11,
+            "member_count": 11,
+            "fpr_resolution": 0.09090909090909091,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 11
+          },
+          "seconds": 0.11087358300574124,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 54,
+          "metrics": {
+            "auc": 0.4694602272727273,
+            "auc_bootstrap_95pct": [
+              0.3025213068181818,
+              0.6372691761363637
+            ],
+            "empirical_best_advantage": 0.09375,
+            "tpr_at_fpr_01": 0.09375,
+            "nonmember_count": 22,
+            "member_count": 32,
+            "fpr_resolution": 0.045454545454545456,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 44,
+          "shadow_prediction_queries": 1408,
+          "metrics": {
+            "auc": 0.5619834710743802,
+            "auc_bootstrap_95pct": [
+              0.3138429752066116,
+              0.7935950413223141
+            ],
+            "empirical_best_advantage": 0.18181818181818188,
+            "tpr_at_fpr_01": 0.09090909090909091,
+            "nonmember_count": 11,
+            "member_count": 11,
+            "fpr_resolution": 0.09090909090909091,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 11
+          },
+          "seconds": 0.12045795901212841,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "c950c05b53964c869764f6d51563c7e9",
+      "dataset": "mimic-demo",
+      "status": "failed_engineering_check",
+      "p_error": 0.01,
+      "rows": 100,
+      "groups": 100,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.9,
+        "f1": 0.0,
+        "auroc": 0.5,
+        "auprc": 0.1380952380952381,
+        "brier": 0.14886939118810033,
+        "test_rows": 20,
+        "test_positives": 2
+      },
+      "quantized": {
+        "accuracy": 0.9,
+        "f1": 0.0,
+        "auroc": 0.5,
+        "auprc": 0.1380952380952381,
+        "brier": 0.15250028167146673,
+        "test_rows": 20,
+        "test_positives": 2
+      },
+      "fhe": {
+        "accuracy": 0.9,
+        "f1": 0.0,
+        "auroc": 0.5,
+        "auprc": 0.1380952380952381,
+        "brier": 0.15176973930265464,
+        "test_rows": 20,
+        "test_positives": 2
+      },
+      "max_weight_error": 0.03067203158494365,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": false,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 86.59683616791153,
+      "training_dispatch_seconds": 103.10094037500676,
+      "training_request_bytes": 219735696,
+      "evaluation_key_bytes": 164795968,
+      "execution_environment": "local subprocess",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": null,
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 52,
+          "metrics": {
+            "auc": 0.5078125,
+            "auc_bootstrap_95pct": [
+              0.3217578125,
+              0.6672265625
+            ],
+            "empirical_best_advantage": 0.23125,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 20,
+            "member_count": 32,
+            "fpr_resolution": 0.05,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 40,
+          "shadow_prediction_queries": 1280,
+          "metrics": {
+            "auc": 0.5900000000000001,
+            "auc_bootstrap_95pct": [
+              0.3295,
+              0.81
+            ],
+            "empirical_best_advantage": 0.30000000000000004,
+            "tpr_at_fpr_01": 0.2,
+            "nonmember_count": 10,
+            "member_count": 10,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 10
+          },
+          "seconds": 0.0870830409694463,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 52,
+          "metrics": {
+            "auc": 0.5078125,
+            "auc_bootstrap_95pct": [
+              0.3217578125,
+              0.6672265625
+            ],
+            "empirical_best_advantage": 0.23125,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 20,
+            "member_count": 32,
+            "fpr_resolution": 0.05,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 40,
+          "shadow_prediction_queries": 1280,
+          "metrics": {
+            "auc": 0.6000000000000001,
+            "auc_bootstrap_95pct": [
+              0.34925,
+              0.8400000000000001
+            ],
+            "empirical_best_advantage": 0.3,
+            "tpr_at_fpr_01": 0.3,
+            "nonmember_count": 10,
+            "member_count": 10,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 10
+          },
+          "seconds": 0.14749270799802616,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "c950c05b53964c869764f6d51563c7e9",
+      "dataset": "har",
+      "status": "failed_engineering_check",
+      "p_error": 0.01,
+      "rows": 10299,
+      "groups": 30,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.7834586466165413,
+        "f1": 0.7012448132780082,
+        "auroc": 0.9990275847181509,
+        "auprc": 0.9985050036548764,
+        "brier": 0.13768799212847804,
+        "test_rows": 1995,
+        "test_positives": 937
+      },
+      "quantized": {
+        "accuracy": 0.8551378446115289,
+        "f1": 0.8181246066708622,
+        "auroc": 0.999058855334061,
+        "auprc": 0.9985635951900941,
+        "brier": 0.13448197253766084,
+        "test_rows": 1995,
+        "test_positives": 937
+      },
+      "fhe": {
+        "accuracy": 0.8651629072681705,
+        "f1": 0.8328154133001865,
+        "auroc": 0.9990185061522415,
+        "auprc": 0.9984768130102584,
+        "brier": 0.13522276114674553,
+        "test_rows": 1995,
+        "test_positives": 937
+      },
+      "max_weight_error": 0.06349206349206349,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": false,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 86.11943525105016,
+      "training_dispatch_seconds": 99.10439370799577,
+      "training_request_bytes": 219608847,
+      "evaluation_key_bytes": 164697664,
+      "execution_environment": "local subprocess",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": null,
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 2027,
+          "metrics": {
+            "auc": 0.5917449874686718,
+            "auc_bootstrap_95pct": [
+              0.5144607612781955,
+              0.6859782268170426
+            ],
+            "empirical_best_advantage": 0.20881892230576438,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 1995,
+            "member_count": 32,
+            "fpr_resolution": 0.0005012531328320802,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 12,
+          "shadow_prediction_queries": 384,
+          "metrics": {
+            "auc": 0.7777777777777778,
+            "auc_bootstrap_95pct": [
+              0.3333333333333333,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6666666666666666,
+            "tpr_at_fpr_01": 0.6666666666666666,
+            "nonmember_count": 3,
+            "member_count": 3,
+            "fpr_resolution": 0.3333333333333333,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.6666666666666666,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 3
+          },
+          "seconds": 0.11209125001914799,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 2027,
+          "metrics": {
+            "auc": 0.594078947368421,
+            "auc_bootstrap_95pct": [
+              0.5176108239348371,
+              0.686967418546366
+            ],
+            "empirical_best_advantage": 0.2148339598997494,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 1995,
+            "member_count": 32,
+            "fpr_resolution": 0.0005012531328320802,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 12,
+          "shadow_prediction_queries": 384,
+          "metrics": {
+            "auc": 0.6666666666666667,
+            "auc_bootstrap_95pct": [
+              0.33333333333333337,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6666666666666667,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 3,
+            "member_count": 3,
+            "fpr_resolution": 0.3333333333333333,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.6666666666666666,
+            "heldout_fpr_at_calibrated_threshold": 0.3333333333333333,
+            "calibration_nonmembers": 3
+          },
+          "seconds": 0.1145431250333786,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "c950c05b53964c869764f6d51563c7e9",
+      "dataset": "bidmc",
+      "status": "failed_engineering_check",
+      "p_error": 0.01,
+      "rows": 53,
+      "groups": 46,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 1.0,
+        "f1": 0.0,
+        "auroc": null,
+        "auprc": null,
+        "brier": 0.030604699492933186,
+        "test_rows": 10,
+        "test_positives": 0
+      },
+      "quantized": {
+        "accuracy": 1.0,
+        "f1": 0.0,
+        "auroc": null,
+        "auprc": null,
+        "brier": 0.03483926676307307,
+        "test_rows": 10,
+        "test_positives": 0
+      },
+      "fhe": {
+        "accuracy": 1.0,
+        "f1": 0.0,
+        "auroc": null,
+        "auprc": null,
+        "brier": 0.035911574857475856,
+        "test_rows": 10,
+        "test_positives": 0
+      },
+      "max_weight_error": 0.030672031584943638,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": false,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 44.18960745702498,
+      "training_dispatch_seconds": 53.57585712498985,
+      "training_request_bytes": 219735694,
+      "evaluation_key_bytes": 164795968,
+      "execution_environment": "local subprocess",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": null,
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 42,
+          "metrics": {
+            "auc": 0.3609375,
+            "auc_bootstrap_95pct": [
+              0.193671875,
+              0.531484375
+            ],
+            "empirical_best_advantage": 0.125,
+            "tpr_at_fpr_01": 0.125,
+            "nonmember_count": 10,
+            "member_count": 32,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 20,
+          "shadow_prediction_queries": 640,
+          "metrics": {
+            "auc": 0.6399999999999999,
+            "auc_bootstrap_95pct": [
+              0.23900000000000005,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6,
+            "tpr_at_fpr_01": 0.6,
+            "nonmember_count": 5,
+            "member_count": 5,
+            "fpr_resolution": 0.2,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.2,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 5
+          },
+          "seconds": 0.07348554203053936,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 42,
+          "metrics": {
+            "auc": 0.3609375,
+            "auc_bootstrap_95pct": [
+              0.193515625,
+              0.5376953125000001
+            ],
+            "empirical_best_advantage": 0.125,
+            "tpr_at_fpr_01": 0.125,
+            "nonmember_count": 10,
+            "member_count": 32,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 20,
+          "shadow_prediction_queries": 640,
+          "metrics": {
+            "auc": 0.8,
+            "auc_bootstrap_95pct": [
+              0.479,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6000000000000001,
+            "tpr_at_fpr_01": 0.6,
+            "nonmember_count": 5,
+            "member_count": 5,
+            "fpr_resolution": 0.2,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.2,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 5
+          },
+          "seconds": 0.07461845903890207,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "893b6007a2bb4d01b92b094101cf9777",
+      "dataset": "diabetes",
+      "status": "completed",
+      "p_error": 1e-06,
+      "rows": 442,
+      "groups": 442,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.5056179775280899,
+        "f1": 0.0,
+        "auroc": 0.7878787878787878,
+        "auprc": 0.78808149600254,
+        "brier": 0.246843372114519,
+        "test_rows": 89,
+        "test_positives": 44
+      },
+      "quantized": {
+        "accuracy": 0.5393258426966292,
+        "f1": 0.1276595744680851,
+        "auroc": 0.7931818181818182,
+        "auprc": 0.7940320982901907,
+        "brier": 0.24633100185312945,
+        "test_rows": 89,
+        "test_positives": 44
+      },
+      "fhe": {
+        "accuracy": 0.5393258426966292,
+        "f1": 0.1276595744680851,
+        "auroc": 0.7931818181818182,
+        "auprc": 0.7940320982901907,
+        "brier": 0.24633100185312945,
+        "test_rows": 89,
+        "test_positives": 44
+      },
+      "max_weight_error": 0.0,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": true,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 312.3806034180452,
+      "training_dispatch_seconds": 343.6855833749869,
+      "training_request_bytes": 666693943,
+      "evaluation_key_bytes": 500014656,
+      "execution_environment": "local subprocess; not sandboxed",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": "local subprocess; not sandboxed",
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 121,
+          "metrics": {
+            "auc": 0.5252808988764044,
+            "auc_bootstrap_95pct": [
+              0.4127370084269663,
+              0.6440133426966291
+            ],
+            "empirical_best_advantage": 0.0972612359550562,
+            "tpr_at_fpr_01": 0.03125,
+            "nonmember_count": 89,
+            "member_count": 32,
+            "fpr_resolution": 0.011235955056179775,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 64,
+          "shadow_prediction_queries": 2048,
+          "metrics": {
+            "auc": 0.55859375,
+            "auc_bootstrap_95pct": [
+              0.33984375,
+              0.73447265625
+            ],
+            "empirical_best_advantage": 0.3125,
+            "tpr_at_fpr_01": 0.0625,
+            "nonmember_count": 16,
+            "member_count": 16,
+            "fpr_resolution": 0.0625,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0625,
+            "heldout_fpr_at_calibrated_threshold": 0.0625,
+            "calibration_nonmembers": 16
+          },
+          "seconds": 0.08737991697853431,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 121,
+          "metrics": {
+            "auc": 0.522998595505618,
+            "auc_bootstrap_95pct": [
+              0.4082996839887641,
+              0.6410244030898877
+            ],
+            "empirical_best_advantage": 0.105688202247191,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 89,
+            "member_count": 32,
+            "fpr_resolution": 0.011235955056179775,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 64,
+          "shadow_prediction_queries": 2048,
+          "metrics": {
+            "auc": 0.55859375,
+            "auc_bootstrap_95pct": [
+              0.33984375,
+              0.73447265625
+            ],
+            "empirical_best_advantage": 0.3125,
+            "tpr_at_fpr_01": 0.0625,
+            "nonmember_count": 16,
+            "member_count": 16,
+            "fpr_resolution": 0.0625,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0625,
+            "heldout_fpr_at_calibrated_threshold": 0.0625,
+            "calibration_nonmembers": 16
+          },
+          "seconds": 0.12926770898047835,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "1cf5d37a39e24c49be9073421acd6e3c",
+      "dataset": "synthea",
+      "status": "completed",
+      "p_error": 1e-06,
+      "rows": 108,
+      "groups": 108,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.6818181818181818,
+        "f1": 0.0,
+        "auroc": 0.8952380952380952,
+        "auprc": 0.7647186147186147,
+        "brier": 0.20346815275469374,
+        "test_rows": 22,
+        "test_positives": 7
+      },
+      "quantized": {
+        "accuracy": 0.6818181818181818,
+        "f1": 0.0,
+        "auroc": 0.9047619047619048,
+        "auprc": 0.7658730158730158,
+        "brier": 0.2031988930710231,
+        "test_rows": 22,
+        "test_positives": 7
+      },
+      "fhe": {
+        "accuracy": 0.6818181818181818,
+        "f1": 0.0,
+        "auroc": 0.9047619047619048,
+        "auprc": 0.7658730158730158,
+        "brier": 0.2031988930710231,
+        "test_rows": 22,
+        "test_positives": 7
+      },
+      "max_weight_error": 0.0,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": true,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 222.76164445804898,
+      "training_dispatch_seconds": 252.6938288329984,
+      "training_request_bytes": 666693943,
+      "evaluation_key_bytes": 500014656,
+      "execution_environment": "local subprocess; not sandboxed",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": "local subprocess; not sandboxed",
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 54,
+          "metrics": {
+            "auc": 0.49360795454545453,
+            "auc_bootstrap_95pct": [
+              0.31741832386363633,
+              0.6704723011363636
+            ],
+            "empirical_best_advantage": 0.09375,
+            "tpr_at_fpr_01": 0.09375,
+            "nonmember_count": 22,
+            "member_count": 32,
+            "fpr_resolution": 0.045454545454545456,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 44,
+          "shadow_prediction_queries": 1408,
+          "metrics": {
+            "auc": 0.5537190082644629,
+            "auc_bootstrap_95pct": [
+              0.3140495867768595,
+              0.7607438016528927
+            ],
+            "empirical_best_advantage": 0.18181818181818182,
+            "tpr_at_fpr_01": 0.09090909090909091,
+            "nonmember_count": 11,
+            "member_count": 11,
+            "fpr_resolution": 0.09090909090909091,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 11
+          },
+          "seconds": 0.08219633402768523,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 54,
+          "metrics": {
+            "auc": 0.4694602272727273,
+            "auc_bootstrap_95pct": [
+              0.3025213068181818,
+              0.6372691761363637
+            ],
+            "empirical_best_advantage": 0.09375,
+            "tpr_at_fpr_01": 0.09375,
+            "nonmember_count": 22,
+            "member_count": 32,
+            "fpr_resolution": 0.045454545454545456,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 44,
+          "shadow_prediction_queries": 1408,
+          "metrics": {
+            "auc": 0.5619834710743802,
+            "auc_bootstrap_95pct": [
+              0.3138429752066116,
+              0.7935950413223141
+            ],
+            "empirical_best_advantage": 0.18181818181818188,
+            "tpr_at_fpr_01": 0.09090909090909091,
+            "nonmember_count": 11,
+            "member_count": 11,
+            "fpr_resolution": 0.09090909090909091,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 11
+          },
+          "seconds": 0.10794720897683874,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "1cf5d37a39e24c49be9073421acd6e3c",
+      "dataset": "mimic-demo",
+      "status": "completed",
+      "p_error": 1e-06,
+      "rows": 100,
+      "groups": 100,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.9,
+        "f1": 0.0,
+        "auroc": 0.5,
+        "auprc": 0.1380952380952381,
+        "brier": 0.14886939118810033,
+        "test_rows": 20,
+        "test_positives": 2
+      },
+      "quantized": {
+        "accuracy": 0.9,
+        "f1": 0.0,
+        "auroc": 0.5,
+        "auprc": 0.1380952380952381,
+        "brier": 0.15250028167146673,
+        "test_rows": 20,
+        "test_positives": 2
+      },
+      "fhe": {
+        "accuracy": 0.9,
+        "f1": 0.0,
+        "auroc": 0.5,
+        "auprc": 0.1380952380952381,
+        "brier": 0.15250028167146673,
+        "test_rows": 20,
+        "test_positives": 2
+      },
+      "max_weight_error": 0.0,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": true,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 178.53434783400735,
+      "training_dispatch_seconds": 199.44675470801303,
+      "training_request_bytes": 666693943,
+      "evaluation_key_bytes": 500014656,
+      "execution_environment": "local subprocess; not sandboxed",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": "local subprocess; not sandboxed",
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 52,
+          "metrics": {
+            "auc": 0.5078125,
+            "auc_bootstrap_95pct": [
+              0.3217578125,
+              0.6672265625
+            ],
+            "empirical_best_advantage": 0.23125,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 20,
+            "member_count": 32,
+            "fpr_resolution": 0.05,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 40,
+          "shadow_prediction_queries": 1280,
+          "metrics": {
+            "auc": 0.5900000000000001,
+            "auc_bootstrap_95pct": [
+              0.3295,
+              0.81
+            ],
+            "empirical_best_advantage": 0.30000000000000004,
+            "tpr_at_fpr_01": 0.2,
+            "nonmember_count": 10,
+            "member_count": 10,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 10
+          },
+          "seconds": 0.08044545800657943,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 52,
+          "metrics": {
+            "auc": 0.5078125,
+            "auc_bootstrap_95pct": [
+              0.3217578125,
+              0.6672265625
+            ],
+            "empirical_best_advantage": 0.23125,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 20,
+            "member_count": 32,
+            "fpr_resolution": 0.05,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 40,
+          "shadow_prediction_queries": 1280,
+          "metrics": {
+            "auc": 0.6000000000000001,
+            "auc_bootstrap_95pct": [
+              0.32975000000000004,
+              0.8402500000000002
+            ],
+            "empirical_best_advantage": 0.4,
+            "tpr_at_fpr_01": 0.4,
+            "nonmember_count": 10,
+            "member_count": 10,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.0,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 10
+          },
+          "seconds": 0.10585770901525393,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "1cf5d37a39e24c49be9073421acd6e3c",
+      "dataset": "har",
+      "status": "completed",
+      "p_error": 1e-06,
+      "rows": 10299,
+      "groups": 30,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 0.7834586466165413,
+        "f1": 0.7012448132780082,
+        "auroc": 0.9990275847181509,
+        "auprc": 0.9985050036548764,
+        "brier": 0.13768799212847804,
+        "test_rows": 1995,
+        "test_positives": 937
+      },
+      "quantized": {
+        "accuracy": 0.8551378446115289,
+        "f1": 0.8181246066708622,
+        "auroc": 0.999058855334061,
+        "auprc": 0.9985635951900941,
+        "brier": 0.13448197253766084,
+        "test_rows": 1995,
+        "test_positives": 937
+      },
+      "fhe": {
+        "accuracy": 0.8551378446115289,
+        "f1": 0.8181246066708622,
+        "auroc": 0.999058855334061,
+        "auprc": 0.9985635951900941,
+        "brier": 0.13448197253766084,
+        "test_rows": 1995,
+        "test_positives": 937
+      },
+      "max_weight_error": 0.0,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": true,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 343.317568541097,
+      "training_dispatch_seconds": 368.57330958300736,
+      "training_request_bytes": 666698167,
+      "evaluation_key_bytes": 500014656,
+      "execution_environment": "local subprocess; not sandboxed",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": "local subprocess; not sandboxed",
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 2027,
+          "metrics": {
+            "auc": 0.5917449874686718,
+            "auc_bootstrap_95pct": [
+              0.5144607612781955,
+              0.6859782268170426
+            ],
+            "empirical_best_advantage": 0.20881892230576438,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 1995,
+            "member_count": 32,
+            "fpr_resolution": 0.0005012531328320802,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 12,
+          "shadow_prediction_queries": 384,
+          "metrics": {
+            "auc": 0.7777777777777778,
+            "auc_bootstrap_95pct": [
+              0.3333333333333333,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6666666666666666,
+            "tpr_at_fpr_01": 0.6666666666666666,
+            "nonmember_count": 3,
+            "member_count": 3,
+            "fpr_resolution": 0.3333333333333333,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.6666666666666666,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 3
+          },
+          "seconds": 0.1121099169831723,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 2027,
+          "metrics": {
+            "auc": 0.5932330827067669,
+            "auc_bootstrap_95pct": [
+              0.5157491384711779,
+              0.6871600877192984
+            ],
+            "empirical_best_advantage": 0.21132518796992483,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 1995,
+            "member_count": 32,
+            "fpr_resolution": 0.0005012531328320802,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 12,
+          "shadow_prediction_queries": 384,
+          "metrics": {
+            "auc": 0.6666666666666667,
+            "auc_bootstrap_95pct": [
+              0.33333333333333337,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6666666666666667,
+            "tpr_at_fpr_01": 0.0,
+            "nonmember_count": 3,
+            "member_count": 3,
+            "fpr_resolution": 0.3333333333333333,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 1.0,
+            "heldout_fpr_at_calibrated_threshold": 0.3333333333333333,
+            "calibration_nonmembers": 3
+          },
+          "seconds": 0.12460633303271607,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    },
+    {
+      "run_id": "1cf5d37a39e24c49be9073421acd6e3c",
+      "dataset": "bidmc",
+      "status": "completed",
+      "p_error": 1e-06,
+      "rows": 53,
+      "groups": 46,
+      "actual_training_records": 32,
+      "steps": 4,
+      "batch_size": 8,
+      "float": {
+        "accuracy": 1.0,
+        "f1": 0.0,
+        "auroc": null,
+        "auprc": null,
+        "brier": 0.030604699492933186,
+        "test_rows": 10,
+        "test_positives": 0
+      },
+      "quantized": {
+        "accuracy": 1.0,
+        "f1": 0.0,
+        "auroc": null,
+        "auprc": null,
+        "brier": 0.03483926676307307,
+        "test_rows": 10,
+        "test_positives": 0
+      },
+      "fhe": {
+        "accuracy": 1.0,
+        "f1": 0.0,
+        "auroc": null,
+        "auprc": null,
+        "brier": 0.03483926676307307,
+        "test_rows": 10,
+        "test_positives": 0
+      },
+      "max_weight_error": 0.0,
+      "inference_error": 0.0,
+      "count_error": 0,
+      "count_unit": "records; not globally deduplicated patients",
+      "engineering_checks": {
+        "exact_training_quantized_parity": true,
+        "exact_query_parity": true,
+        "wrong_key_rejected_empirically": true
+      },
+      "training_compute_seconds": 273.44269150093896,
+      "training_dispatch_seconds": 297.4642540420173,
+      "training_request_bytes": 666693944,
+      "evaluation_key_bytes": 500014656,
+      "execution_environment": "local subprocess; not sandboxed",
+      "encrypted_silo_blob_count": null,
+      "query_execution_environment": "local subprocess; not sandboxed",
+      "query_encrypted_silo_blob_count": null,
+      "inference_execution_environment": "local subprocess",
+      "attacks": [
+        {
+          "id": "single-example-gradient-ratio",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "unprotected single-example gradient plus bias gradient",
+          "reconstruction_rmse": 0.0,
+          "encrypted_cloud_surface": "not exposed by this protocol",
+          "caution": "positive control only; not an attack on FHE"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 42,
+          "metrics": {
+            "auc": 0.3609375,
+            "auc_bootstrap_95pct": [
+              0.193671875,
+              0.531484375
+            ],
+            "empirical_best_advantage": 0.125,
+            "tpr_at_fpr_01": 0.125,
+            "nonmember_count": 10,
+            "member_count": 32,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          }
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 20,
+          "shadow_prediction_queries": 640,
+          "metrics": {
+            "auc": 0.6399999999999999,
+            "auc_bootstrap_95pct": [
+              0.23900000000000005,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6,
+            "tpr_at_fpr_01": 0.6,
+            "nonmember_count": 5,
+            "member_count": 5,
+            "fpr_resolution": 0.2,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.2,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 5
+          },
+          "seconds": 0.09144687495427206,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample"
+        },
+        {
+          "id": "MIA-loss-threshold",
+          "method": "Yeom et al. loss-based membership probe (adapted)",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "surface": "customer-released model, not ciphertext",
+          "query_budget": 42,
+          "metrics": {
+            "auc": 0.3609375,
+            "auc_bootstrap_95pct": [
+              0.193671875,
+              0.531484375
+            ],
+            "empirical_best_advantage": 0.125,
+            "tpr_at_fpr_01": 0.125,
+            "nonmember_count": 10,
+            "member_count": 32,
+            "fpr_resolution": 0.1,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap"
+          },
+          "model": "FHE-trained, customer-released"
+        },
+        {
+          "id": "MIA-LiRA-logistic-adaptation",
+          "risk": [
+            "IND",
+            "BIO"
+          ],
+          "source": "https://arxiv.org/abs/2112.03570",
+          "surface": "released model probabilities",
+          "shadow_models": 32,
+          "in_and_out_models_per_candidate": 16,
+          "candidate_unit": "one record per independent group",
+          "target_queries": 20,
+          "shadow_prediction_queries": 640,
+          "metrics": {
+            "auc": 0.8,
+            "auc_bootstrap_95pct": [
+              0.479,
+              1.0
+            ],
+            "empirical_best_advantage": 0.6000000000000001,
+            "tpr_at_fpr_01": 0.6,
+            "nonmember_count": 5,
+            "member_count": 5,
+            "fpr_resolution": 0.2,
+            "caution": "in-sample attack thresholds; not held-out attack validation; IID bootstrap",
+            "heldout_tpr_at_calibrated_threshold": 0.2,
+            "heldout_fpr_at_calibrated_threshold": 0.0,
+            "calibration_nonmembers": 5
+          },
+          "seconds": 0.09941858297679573,
+          "assumptions": "known candidate features/labels and auxiliary same-distribution records",
+          "limitations": "32 float logistic surrogates; not exact quantized shadows or full-paper reproduction; tiny low-FPR sample",
+          "model": "FHE-trained, customer-released"
+        }
+      ]
+    }
+  ],
+  "scope": "Engineering smoke tests, 4 updates of 8 records; not clinical validation or proof of privacy.",
+  "comparison": "Library-default failures and stricter numerical-error runs are separate measurements; see local-evidence.json for both.",
+  "privacy": "Shared customer-key gateway; released counts/models and metadata can leak; no DP or malicious-worker proof."
+}

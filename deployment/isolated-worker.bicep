@@ -8,6 +8,10 @@ param workerName string = 'nftpz-fhe-worker'
 param operatorSshPublicKey string
 param vmSize string = 'Standard_D4s_v5'
 param operatorUsername string = 'nftpzoperator'
+@description('Optional exact trusted gateway IPv4 address. Empty keeps public ingress disabled. Raw owner accounts are unaffected.')
+param gatewayIpAddress string = ''
+@description('Temporary HTTPS package installation only. Set false again before executing jobs.')
+param bootstrapInternetAccess bool = false
 
 resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: '${workerName}-identity'
@@ -31,7 +35,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
     securityRules: [
       { name: 'deny-inbound', properties: { priority: 100, direction: 'Inbound', access: 'Deny', protocol: '*', sourcePortRange: '*', destinationPortRange: '*', sourceAddressPrefix: '*', destinationAddressPrefix: '*' } }
       { name: 'blob-endpoint-only', properties: { priority: 100, direction: 'Outbound', access: 'Allow', protocol: 'Tcp', sourcePortRange: '*', destinationPortRange: '443', sourceAddressPrefix: '*', destinationAddressPrefix: '10.87.2.0/24' } }
-      { name: 'platform-dns', properties: { priority: 110, direction: 'Outbound', access: 'Allow', protocol: '*', sourcePortRange: '*', destinationPortRange: '53', sourceAddressPrefix: '*', destinationAddressPrefix: 'AzurePlatformDNS' } }
+      { name: 'bootstrap-https', properties: { priority: 200, direction: 'Outbound', access: bootstrapInternetAccess ? 'Allow' : 'Deny', protocol: 'Tcp', sourcePortRange: '*', destinationPortRange: '443', sourceAddressPrefix: '*', destinationAddressPrefix: 'Internet' } }
       { name: 'deny-other-outbound', properties: { priority: 4000, direction: 'Outbound', access: 'Deny', protocol: '*', sourcePortRange: '*', destinationPortRange: '*', sourceAddressPrefix: '*', destinationAddressPrefix: '*' } }
     ]
   }
@@ -46,7 +50,12 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     allowSharedKeyAccess: false
     minimumTlsVersion: 'TLS1_2'
     supportsHttpsTrafficOnly: true
-    publicNetworkAccess: 'Disabled'
+    publicNetworkAccess: empty(gatewayIpAddress) ? 'Disabled' : 'Enabled'
+    networkAcls: {
+      defaultAction: 'Deny'
+      bypass: 'None'
+      ipRules: empty(gatewayIpAddress) ? [] : [{ action: 'Allow', value: gatewayIpAddress }]
+    }
   }
 }
 resource blob 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' = {
