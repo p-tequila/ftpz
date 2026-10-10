@@ -6,13 +6,14 @@ Fork [Concrete ML](https://github.com/zama-ai/concrete-ml) at the signed `v1.9.0
 
 The existing trainer provides the architectural starting point: it compiles a manually written SGD update into one FHE circuit, repeatedly composes encrypted weights between batches, and supports `disable`, `simulate`, and `execute` modes. The fork will generate this update circuit from PyTorch forward, loss, backward, and optimizer graphs instead of requiring handwritten gradients.
 
-The mandatory POC will use WESAD and compare:
+The mandatory training POC will use WESAD and compare:
 
 1. Plaintext training using one data silo.
 2. Plaintext training using all silos.
 3. Simulated-FHE training using all silos.
 4. Real-FHE training using all silos.
-5. Key-holder decryption of the resulting model.
+5. Customer decryption of the resulting model. Threshold release is a separate
+   productization security gate.
 6. Ordinary plaintext PyTorch inference on held-out subjects.
 
 The POC is research-only. Concrete ML's repository permits research/prototyping under BSD-3-Clause-Clear but states that commercial use requires a separate Zama patent license. Commercial deployment is therefore an explicit release gate, not an assumption.
@@ -66,7 +67,8 @@ Core interfaces:
 - `TrainingConfig`: static shapes, quantization, step count, optimizer constants, error probability, and overflow policy.
 - `CompiledTrainingProgram`: exposes `fit`, cost estimates, graph diagnostics, and deployment export.
 - `EncryptedTrainingResult`: encrypted parameters, optimizer state, circuit fingerprint, executed step count, and provenance.
-- `decrypt_training_result(...)`: key-holder-only conversion into ordinary PyTorch parameters.
+- `decrypt_training_result(...)`: customer-key-authority conversion of a
+  released result into ordinary PyTorch parameters.
 - `export_pytorch_model(...)`: writes `model.safetensors`, model specification, preprocessing metadata, and provenance.
 
 The compiler-facing train-step contract is:
@@ -122,11 +124,15 @@ Generalize the existing logistic-specific implementation:
 - Build composition mappings automatically from each output parameter/state tensor to the corresponding next-step input.
 - Support encrypted checkpoint serialization after any completed batch.
 - Validate the circuit fingerprint, key identifier, schema, tensor order, shapes, scales, and training-step counter before resuming.
-- Keep optional metrics such as loss encrypted by default; permit decryption only through an explicit key-holder operation.
+- Keep optional metrics such as loss encrypted by default; permit decryption
+  only through an explicit, policy-approved result release.
 
 ### 6. Key and deployment architecture
 
-Reuse Concrete ML's client/server artifact concept while separating data-owner encryption from decryption.
+Reuse Concrete ML's client/server artifact concept for the first executable
+baseline, but separate the production collaboration key from the customer's
+output key. See [`key-exchange.md`](key-exchange.md) for the protocol and threat
+model.
 
 Artifacts:
 
@@ -134,7 +140,7 @@ Artifacts:
   - preprocessing and quantization specification;
   - tensor and batch schemas;
   - public encryption parameters;
-  - public-key identifier;
+  - collaboration public-key and key-context identifiers;
   - compatible circuit fingerprint.
 - `training-server.zip`
   - compiled update circuit;
@@ -148,14 +154,37 @@ Artifacts:
 
 Roles:
 
-- **Consortium key authority:** creates the secret/client key, compact public encryption key, and server evaluation material. It alone can decrypt the trained model.
-- **Data owners:** preprocess locally and encrypt their batches using only the public key.
+- **Data-holder key guardians:** jointly generate `pk_collab` and evaluation
+  material, retain separate `sk_collab_i` shares, and authorize one exact
+  result release.
+- **Data owners:** preprocess locally and encrypt their batches using only
+  `pk_collab`.
 - **Training worker:** evaluates the circuit, composes encrypted state, and stores encrypted checkpoints. It cannot decrypt data or the model.
-- **Model recipient:** receives a plaintext model only after the key authority authorizes and performs final decryption.
+- **Customer key authority:** generates `(pk_out, sk_out)`, receives only the
+  approved model released to `pk_out`, and decrypts it locally. It receives no
+  collaboration-key share.
+- **Release combiner:** aggregates result-specific guardian shares and cannot
+  decrypt any artifact.
 
 Use [TFHE-rs compact public-key encryption](https://docs.zama.org/tfhe-rs/fhe-computation/advanced-features/public-key) and [Concrete's TFHE-rs interoperability](https://docs.zama.org/concrete/2.8/guides/tfhers) for owner-side encryption. Add a small Rust encryptor with Python bindings rather than distributing Concrete client secret keys to owners.
 
-If generic training tensors cannot cross the Concrete/TFHE-rs interoperability boundary, the research POC may use an encryption gateway inside the key authority's trust boundary. This fallback must never place the secret key on the training worker and does not satisfy the productization security gate.
+The first end-to-end training run may follow the reference image's single-key
+mode: the customer creates the Concrete client key, owners encrypt with its
+public material, and the customer decrypts the final weights. This validates
+the compiler and runtime but does not prevent the customer from decrypting any
+input ciphertext it obtains.
+
+The multi-owner security POC must add a compatible threshold backend. First
+investigate [Zama threshold-fhe](https://github.com/zama-ai/threshold-fhe) and
+[Zama KMS](https://github.com/zama-ai/kms) because they target threshold TFHE.
+Concrete interoperability must be demonstrated, not assumed. Lattigo or
+OpenFHE may be used for a CKKS/BGV backend experiment, but their release
+protocols cannot be applied to Concrete TFHE ciphertexts.
+
+If generic training tensors cannot cross the Concrete/TFHE-rs interoperability
+boundary, the research POC may use an encryption gateway inside the single-key
+authority's trust boundary. This fallback must never place the secret key on
+the training worker and does not satisfy the productization security gate.
 
 ### 7. Service-ready platform
 
@@ -166,7 +195,9 @@ Run the POC locally through Docker Compose with:
 - CPU FHE execution worker.
 - PostgreSQL metadata store.
 - S3-compatible encrypted artifact/checkpoint store.
-- Key-authority CLI kept outside the worker containers.
+- Customer key-authority CLI kept outside the worker containers.
+- Three guardian services and one untrusted release combiner for the threshold
+  security POC.
 - Owner encryption CLI.
 - Prometheus-compatible runtime counters for FHE operations, batch latency, checkpoint size, memory, and failures.
 
@@ -302,11 +333,11 @@ Define and test these deployment modes explicitly:
   ciphertext for a specifically approved FHE workload. This mode must document
   the trust boundary, metadata exposure, key ownership, and performance limits.
 
-The current consortium key authority must be treated as a policy choice rather
-than a universal assumption. Add organization-controlled keys, per-job key
-scoping, rotation and revocation, dual approval or threshold authorization for
-decryption, and recovery procedures. The training worker must remain unable to
-decrypt data or model state in every mode.
+The single customer or consortium key authority is a baseline POC mode, not the
+production trust model. Production uses organization-controlled collaboration
+key shares, a separate customer output key, per-job key scoping, rotation and
+revocation, threshold result release, and recovery procedures. The training
+worker must remain unable to decrypt data or model state in every mode.
 
 ### Query and data platform
 
@@ -402,7 +433,12 @@ For supported toy models:
 ### Security tests
 
 - Assert that data-owner and worker artifacts contain no secret key material.
-- Demonstrate that public-key owners cannot decrypt their own or another owner's ciphertext.
+- Demonstrate that Run Nodes cannot decrypt their own or another owner's
+  ciphertext.
+- Demonstrate that the customer output key decrypts only the threshold-released
+  model and fails on owner inputs, checkpoints, and the pre-release result.
+- Reject missing, duplicate, replayed, regenerated, wrong-result,
+  wrong-recipient, and expired release shares.
 - Verify ciphertext/key/circuit mismatches fail closed.
 - Confirm no plaintext features, targets, gradients, parameters, or metrics are logged or persisted by the worker.
 - Scan container layers, process environments, checkpoints, and service logs for key leakage.
@@ -411,7 +447,8 @@ For supported toy models:
 ### POC success criteria
 
 - Complete Stage 1 and Stage 2 real-FHE runs within 12 hours total on one 16-32-core, 128-GB RAM CPU server.
-- Produce an encrypted final model that only the consortium key authority can decrypt.
+- Produce an encrypted final model under `pk_collab`, release only that result
+  to `pk_out`, and have only the customer decrypt the released model.
 - Load the decrypted model in stock PyTorch and run held-out plaintext inference.
 - Show end-to-end provenance from owner datasets to exported model.
 - Treat utility as a measured hypothesis:
@@ -424,10 +461,25 @@ For supported toy models:
 1. **Reference reproduction:** reproduce Concrete ML encrypted logistic training and deployment artifacts.
 2. **Autograd generation:** export forward, MSE, and backward graphs and validate them against PyTorch.
 3. **Optimizer composition:** add encrypted SGD, momentum state, arbitrary parameter tuples, and checkpoints.
-4. **Public-key ingestion:** integrate TFHE-rs owner encryption and confirm worker-side interoperability.
-5. **Service integration:** package compiler, worker, artifact store, and control API in Docker Compose.
-6. **Stage 1 benchmark:** complete logistic comparison and establish operational baselines.
-7. **Stage 2 benchmark:** complete generated-autograd MLP training, decrypt, export, and infer.
-8. **Productization review:** require a Zama commercial patent license, cryptographic review, dependency/security audit, production key-management design, and successful public-key interoperability before any commercial or multi-tenant release.
+4. **Public-key ingestion:** integrate TFHE-rs owner encryption and confirm
+   worker-side interoperability.
+5. **Service integration:** package compiler, worker, artifact store, and
+   control API in Docker Compose.
+6. **Stage 1 benchmark:** complete logistic comparison and establish
+   operational baselines.
+7. **Stage 2 benchmark:** complete generated-autograd MLP training, decrypt,
+   export, and infer in the image-compatible single-key mode.
+8. **Threshold release POC:** run distributed key generation across three
+   guardians and release only the final result to a separate customer key. Use
+   the same FHE backend as the encrypted computation being tested.
+9. **Productization review:** require a Zama commercial patent license,
+   cryptographic review, dependency/security audit, production key-management
+   design, and successful threshold public-key interoperability before any
+   commercial or multi-tenant release.
 
-Defaults: PyTorch only, WESAD only for the mandatory POC, CPU execution, horizontal subject silos, one consortium key authority, static-shape models, SGD-family optimizers, no differential privacy, no Adam, no GPUs, and no client-assisted decrypt/re-encrypt during training.
+Defaults: PyTorch only, WESAD only for the mandatory training POC, CPU
+execution, horizontal subject silos, single customer key authority for the
+image-compatible baseline, three guardians with `3-of-3` release for the
+security POC, static-shape models, SGD-family optimizers, no differential
+privacy, no Adam, no GPUs, and no client-assisted decrypt/re-encrypt during
+training.

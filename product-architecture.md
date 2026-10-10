@@ -26,8 +26,10 @@ The product separates orchestration from computation:
    approvals, jobs, metering, and audit metadata.
 3. **Run Engine** compiles and runs approved circuits over ciphertext in a
    public cloud or customer VPC.
-4. **The customer release authority** controls keys and decrypts approved
-   outputs.
+4. **Data-holder key guardians** hold shares of the collaboration secret and
+   authorize release of an exact encrypted result.
+5. **The customer key authority** holds a separate output secret key and
+   decrypts only results released to that key.
 
 The long-term product supports broad computation and general ML/AI training.
 Every release must publish a capability matrix that distinguishes certified,
@@ -54,21 +56,42 @@ unsupported operation into plaintext.
 
 ```mermaid
 flowchart TB
-    WA[Workload author] -->|contract and program| CP[Control plane]
-    KA[Customer release<br/>authority] -->|public and evaluation keys| CP
-    CP -->|review bundle and key material| DP[Run Nodes<br/>Owner A, B, ... N]
-    DP -->|signed ciphertext batches| ES[(Encrypted object store)]
-    CP -->|execution plan| EP[Run Engine<br/>FHE execution]
-    ES -->|ciphertext batches| EP
-    EP -->|encrypted checkpoints and result| ES
-    CP -->|result digest and approvals| KA
-    ES -->|encrypted result| KA
-    KA -->|approved artifact| RR[Result recipient]
+    C[Model / computation<br/>customer] -->|program + policy + pk_out| CP[Run control plane]
+    G[Data-holder<br/>key guardians] -->|pk_collab + evk| CP
+    CP -->|approved program + pk_collab| N[Run Nodes<br/>at data holders]
+    N -->|encrypted training data| S[(Encrypted artifact store)]
+    CP -->|manifest + evk| E[Run Engine]
+    S -->|encrypted batches| E
+    E -->|encrypted weights| S
+    CP -->|result digest + release request| G
+    G -->|threshold release shares| R[Release combiner]
+    S -->|encrypted weights| R
+    R -->|weights under pk_out| K[Customer<br/>key authority]
+    K -->|decrypt and export| M[Plaintext model]
 ```
 
 Ciphertext objects move directly between Run Nodes, execution storage, and
 workers. The control plane receives object references, hashes, sizes, statuses,
 and policy metadata, not payload bytes.
+
+### Translation of the reference image
+
+| Reference-image term | Run architecture term | Security interpretation |
+|---|---|---|
+| Hospitals | Data holders operating Run Nodes | Plaintext and preprocessing stay inside each holder; the node encrypts approved tensors with the collaboration public key. |
+| Public encryption key | Collaboration public key, `pk_collab` | Anyone authorized to contribute can encrypt, but cannot decrypt. |
+| `nftpz` worker | Run Engine worker | Receives ciphertext and evaluation keys, runs encrypted training, and cannot decrypt inputs, state, or weights. |
+| Encrypted final weights | Result ciphertext, `ct_weights` | Initially remains under `pk_collab`; it is not yet decryptable by the customer. |
+| Customer/consortium key authority | Data-holder key guardians plus the customer key authority | Split into two roles so the customer never receives the collaboration secret. |
+| Model buyer | Model or computation customer | Holds only the output secret key and decrypts weights after threshold-approved release. |
+
+The image's simpler design uses one FHE key pair: hospitals encrypt with its
+public key and the customer or consortium holds its secret key. That flow is
+compatible with a conventional client/server FHE deployment, but possession of
+the secret key permits decryption of *every* ciphertext under that key,
+including captured hospital inputs. It is therefore a useful POC mode, not the
+target trust model when data holders require cryptographic protection from the
+customer.
 
 ## Roles and trust boundaries
 
@@ -78,8 +101,9 @@ and policy metadata, not payload bytes.
 | Data steward | Maps local sources, reviews requested fields, validates rights and consent, approves participation | Other owners' records or keys |
 | Collaboration administrator | Invites organizations, configures roles, freezes run membership, and manages budgets | Plaintext owner data |
 | Security/privacy reviewer | Reviews code digest, data-use purpose, output policy, security profile, and retention | Data outside the approved local review path |
-| Result recipient | Receives only the output named in the release policy | Raw contributor data and intermediate state |
-| Customer release authority | Generates and protects secret keys and performs approved decryption | Unapproved outputs |
+| Model/computation customer | Supplies the signed workload and output public key and receives the approved result | Raw contributor data, collaboration-key shares, and intermediate state |
+| Data-holder key guardian | Participates in distributed key generation, protects one secret share, and issues a release share for an approved result | The complete collaboration secret and other holders' plaintext |
+| Customer key authority | Protects the output secret key and decrypts the result after release | The collaboration secret, training ciphertext plaintexts, and unapproved outputs |
 | Platform operator | Operates control and execution services | Secret keys, plaintext inputs, intermediates, and results |
 | Auditor | Reads immutable manifests, approvals, receipts, and security evidence | Plaintext unless separately authorized |
 
@@ -173,26 +197,31 @@ Jobs are batch-oriented. A retry resumes from the last committed encrypted
 checkpoint and cannot apply a batch twice. A worker must reject mismatched
 program, key, schema, batch, or context identifiers.
 
-### Customer release authority
+### Key guardians, release combiner, and customer key authority
 
-The release authority runs in the result owner's environment and supports an
-HSM/KMS-backed online service or an offline key host.
+Each data holder operates a key guardian beside its Run Node or delegates that
+role to an independently governed custodian. Guardians use distributed key
+generation; no complete collaboration secret is ever constructed. Each share
+is non-exportable where the backend and HSM integration permit it.
 
-- Generate one versioned key context per collaboration or per job, according
-  to policy.
-- Keep the secret key non-exportable where the selected cryptographic client
-  permits it.
-- Publish compact public encryption material and evaluation/server keys.
-- Verify approvals, program digest, input Merkle root, execution receipt,
-  result digest, recipient, and expiry before decryption.
-- Decrypt and post-process without returning plaintext through vendor services.
-- Record a signed release receipt without storing the result in the control
-  plane.
+The customer key authority runs in the result owner's environment. It creates
+a separate output key pair, publishes only `pk_out`, and keeps `sk_out` in an
+HSM, KMS, or offline key host. It never receives a collaboration-key share.
 
-The initial approval quorum is enforced by policy and audit. It does not stop a
-malicious administrator who controls the sole secret key and bypasses the
-release service. Workloads requiring cryptographic protection from that party
-must wait for threshold FHE or use an independently controlled key custodian.
+For an approved result, a policy threshold of guardians produces shares for a
+collective public-key switch of the exact `ct_weights` to `pk_out`. The release
+combiner can be untrusted: it aggregates shares into `ct_weights_out`, but it
+does not learn plaintext or either secret key. The customer decrypts
+`ct_weights_out`, dequantizes the parameters, and loads an ordinary model.
+
+Every guardian verifies the collaboration, run manifest, program and circuit
+digests, input commitment root, result ciphertext digest, output schema,
+recipient-key fingerprint, approval quorum, expiry, and unique release ID
+before producing a share. It persists and replays the same signed share for an
+idempotent retry instead of generating another share.
+
+The full protocol, threat model, POC fallback, and backend options are specified
+in [`key-exchange.md`](key-exchange.md).
 
 ## Versioned artifacts and contracts
 
@@ -272,14 +301,16 @@ compile(graph, contract, target) -> ProgramBundle
 client_spec(program) -> ClientSpecification
 encrypt(client_spec, batch) -> CiphertextBatch
 execute(program, evaluation_keys, ciphertexts) -> CiphertextResult
-decrypt(client_spec, secret_key, result) -> PlainResult
+release(result, output_public_key, threshold_shares) -> CiphertextResult
+decrypt(client_spec, output_secret_key, released_result) -> PlainResult
 ```
 
 Concrete and Concrete ML are the first backend for exact integer arithmetic,
 lookup tables, quantized ML, small encrypted training, and hybrid model
 partitioning. The commercial product must secure the required Zama patent
-license. OpenFHE is evaluated later for CKKS approximate arithmetic, alternate
-packing, and threshold BFV/BGV/CKKS.
+license. A compatible threshold-TFHE path is a productization gate. OpenFHE is
+evaluated for CKKS approximate arithmetic, alternate packing, and threshold
+BFV/BGV/CKKS.
 
 ### Workload capability tiers
 
@@ -404,15 +435,21 @@ stewards, reviewers, result recipients, and auditors.
 3. Compilation emits an immutable program and execution plan.
 4. Each data owner reviews and approves the exact digest and implements its
    local mapping.
-5. The release authority generates the collaboration keys.
-6. Run Nodes validate, preprocess, encrypt, sign, and upload data.
-7. The control plane freezes a run manifest after required contributions arrive.
-8. Workers execute and checkpoint encrypted state.
-9. The result packager publishes an encrypted result and signed receipt.
-10. Required organizations approve the exact result and run digests.
-11. The customer release authority decrypts and exports the approved artifact.
-12. Retention removes ciphertexts, evaluation keys, and temporary artifacts
-    while preserving permitted evidence.
+5. Data-holder key guardians run distributed key generation and publish
+   `pk_collab` and the required evaluation keys.
+6. The customer registers a signed, collaboration-bound output public key,
+   `pk_out`.
+7. Run Nodes validate, preprocess, encrypt, sign, and upload data under
+   `pk_collab`.
+8. The control plane freezes a run manifest after required contributions arrive.
+9. Workers execute and checkpoint encrypted state.
+10. The result packager publishes an encrypted result and signed receipt.
+11. Required organizations approve the exact result and run digests.
+12. Guardians create result-specific public-key-switch shares to `pk_out`; the
+    release combiner emits `ct_weights_out`.
+13. The customer key authority decrypts and exports the approved artifact.
+14. Retention removes ciphertexts, evaluation keys, release shares, and
+    temporary artifacts while preserving permitted evidence.
 
 Contributor changes, a dropped required site, range violations, expired
 approval, key rotation, or artifact changes require a new manifest and renewed
@@ -432,8 +469,11 @@ FHE does not address every risk:
 - Contributor identity, timing, payload size, and access patterns may leak.
 - A malicious worker can withhold or corrupt a result.
 - A compromised owner endpoint can leak plaintext before encryption.
-- A sole key custodian can bypass a policy quorum unless threshold cryptography
-  or an independent custodian is used.
+- A threshold of compromised guardians can authorize release of arbitrary
+  collaboration ciphertexts; the threshold encodes the accepted collusion and
+  availability tradeoff.
+- An approved plaintext model can still memorize or reveal information about
+  training records. Key separation does not provide output privacy.
 
 Required controls include signed artifacts, owner-side digest enforcement,
 minimum-contributor policies, fixed payload classes where practical, release
@@ -488,9 +528,9 @@ defense adoption and carries separate licensing and support.
 1. **Productize the regression POC:** expose the existing Concrete ML flow
    through versioned artifacts, one Run Node, execution worker, and offline
    result decryption.
-2. **Multi-owner pilot:** three Run Nodes contribute under one collaboration
-   key; complete approval, ciphertext upload, encrypted execution, release,
-   and audit flow.
+2. **Multi-owner pilot:** three Run Nodes and key guardians contribute under a
+   distributed collaboration key; complete approval, ciphertext upload,
+   encrypted execution, threshold release to a customer key, and audit flow.
 3. **General computation:** introduce the typed IR, core encrypted analytics,
    compatibility reports, and benchmark-backed cost estimator.
 4. **ML expansion:** generated autograd, functional optimizers, encrypted model
@@ -513,8 +553,10 @@ defense adoption and carries separate licensing and support.
 - Worker interruption resumes without applying a batch twice.
 - Clear, simulated, CPU-FHE, and GPU-FHE results meet declared numerical
   tolerances.
-- Result decryption fails without all required approvals and succeeds only for
-  the named recipient and exact result digest.
+- Result release fails without the required guardian threshold and succeeds
+  only for the named recipient key and exact result digest.
+- The customer decrypts the released model but cannot decrypt any stored input,
+  checkpoint, or pre-release result ciphertext with `sk_out`.
 - Logs, metrics, support bundles, images, and storage metadata contain no
   plaintext values or secret keys.
 - Membership, inversion, site-attribution, differencing, repeated-release, and
@@ -531,7 +573,9 @@ defense adoption and carries separate licensing and support.
   training concatenates independently prepared records under a common schema.
 - Differential privacy is optional output protection, not a replacement for
   FHE or a default claim.
-- Threshold decryption is not present in the initial Concrete backend.
+- Threshold key generation and customer-specific release are not present in the
+  initial Concrete backend and require a compatible threshold-TFHE integration
+  or a different Run Engine backend.
 - Commercial release is blocked on patent licensing, independent cryptographic
   review, production key management, and successful public-key multi-owner
   interoperability.

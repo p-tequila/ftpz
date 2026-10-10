@@ -154,6 +154,7 @@ python -m unittest discover -s tests -v
 
 - [Platform plan](plan.md)
 - [Product architecture](product-architecture.md)
+- [Key management and model release](key-exchange.md)
 - [Business case](business-case.md)
 - [Dataset inventory](data.md)
 - [Adversarial testing](adversarial-testing/README.md)
