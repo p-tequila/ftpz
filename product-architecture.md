@@ -44,27 +44,17 @@ unsupported operation into plaintext.
 ## System context
 
 ```mermaid
-flowchart LR
-    WA[Workload author] -->|contract + program| CP[Control plane]
-    CP -->|immutable review bundle| DP1[Owner data plane A]
-    CP -->|immutable review bundle| DP2[Owner data plane B]
-    CP -->|immutable review bundle| DPN[Owner data plane N]
-
-    KA[Customer release authority] -->|public + evaluation keys| CP
-    CP -->|approved key material| DP1
-    CP -->|approved key material| DP2
-    CP -->|approved key material| DPN
-
-    DP1 -->|signed ciphertext batches| ES[(Encrypted object store)]
-    DP2 -->|signed ciphertext batches| ES
-    DPN -->|signed ciphertext batches| ES
-
-    CP -->|signed execution plan| EP[FHE execution plane]
-    ES --> EP
-    EP -->|encrypted checkpoints + result| ES
-    CP -->|result digest + approvals| KA
+flowchart TB
+    WA[Workload author] -->|contract and program| CP[Control plane]
+    KA[Customer release<br/>authority] -->|public and evaluation keys| CP
+    CP -->|review bundle and key material| DP[Owner data planes<br/>A, B, ... N]
+    DP -->|signed ciphertext batches| ES[(Encrypted object store)]
+    CP -->|execution plan| EP[FHE execution plane]
+    ES -->|ciphertext batches| EP
+    EP -->|encrypted checkpoints and result| ES
+    CP -->|result digest and approvals| KA
     ES -->|encrypted result| KA
-    KA -->|approved plaintext artifact| RR[Result recipient]
+    KA -->|approved artifact| RR[Result recipient]
 ```
 
 Ciphertext objects move directly between owner agents, execution storage, and
