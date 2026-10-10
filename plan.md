@@ -263,6 +263,121 @@ After training:
 
 Report macro-F1, balanced accuracy, per-class recall, confusion matrix, calibration error, training wall time, compilation time, peak memory, encrypted checkpoint size, and per-update latency.
 
+## Extension
+
+The FHE training work above is one privacy-preserving execution backend, not the
+definition of the product. The platform's primary outcome is that a healthcare
+organization can retain control of sensitive data on its own infrastructure,
+authorize specific biotech or pharma workloads, expose governed query access,
+and contribute to model training without releasing raw records or uncontrolled
+intermediate artifacts.
+
+### Product workstreams
+
+Add four coordinated workstreams:
+
+1. **Data plane and governance:** ingest data locally, normalize it into a
+   versioned catalog, attach consent and data-use restrictions, and enforce
+   retention, deletion, tenant-isolation, and provenance policies.
+2. **Governed query access:** provide SQL, Python SDK, and REST/GraphQL access
+   to approved cohorts and aggregates without exposing uncontrolled records.
+3. **Privacy-preserving training:** support the FHE backend in this plan plus
+   local plaintext execution, secure aggregation/federated execution, and
+   optional trusted-execution backends where the organization's policy permits.
+4. **Operations and release control:** manage authorization, keys, approvals,
+   audit, monitoring, incident response, upgrades, rollback, backup, and
+   disaster recovery.
+
+### Deployment and trust model
+
+Define and test these deployment modes explicitly:
+
+- **Healthcare-controlled mode:** raw data and the query engine remain on the
+  healthcare organization's server; an external party submits a signed query
+  or workload, not a copy of the data.
+- **Workload-package mode:** biotech or pharma receives an approved result or
+  model artifact, while execution occurs inside the healthcare-controlled
+  boundary.
+- **Encrypted remote-compute mode:** data may leave the organization only as
+  ciphertext for a specifically approved FHE workload. This mode must document
+  the trust boundary, metadata exposure, key ownership, and performance limits.
+
+The current consortium key authority must be treated as a policy choice rather
+than a universal assumption. Add organization-controlled keys, per-job key
+scoping, rotation and revocation, dual approval or threshold authorization for
+decryption, and recovery procedures. The training worker must remain unable to
+decrypt data or model state in every mode.
+
+### Query and data platform
+
+Specify a query service with:
+
+- SQL, Python SDK, and REST/GraphQL interfaces;
+- a schema and metadata catalog with dataset, field, unit, modality, consent,
+  provenance, and data-use annotations;
+- connectors for EHR, imaging, omics, laboratory, and research systems;
+- terminology and schema mapping appropriate to healthcare data;
+- row-, column-, cohort-, purpose-, and tenant-based authorization;
+- query approval workflows for external organizations;
+- reproducible query plans, dataset versions, and complete audit trails;
+- result controls including minimum cohort sizes, suppression, rounding,
+  output-size limits, optional noise, and purpose-bound release policies;
+- query cancellation, rate limits, quotas, and a release ledger for repeated
+  and adaptive queries.
+
+The first query POC must cover cohort discovery, aggregate clinical statistics,
+stratification, and at least one biomedical or omics query. It must measure
+correctness, latency, throughput, data movement, operator burden,
+reproducibility, and leakage under adaptive differencing and repeated-release
+attacks. A query must fail closed when authorization, cohort size, purpose,
+data-use terms, or privacy budget is not satisfied.
+
+### Governance and security gates
+
+Add a governance layer for de-identification, consent and data-use agreements,
+retention and deletion, subject and site minimums, export approval, key
+revocation, and incident response. Treat model exports and query results as
+potential disclosure channels even when the computation used FHE.
+
+Extend the security gates to include:
+
+- membership inference and model inversion against exported models;
+- poisoning and backdoor testing for submitted workloads or updates;
+- query-result, embedding, metadata, and timing leakage;
+- Sybil, collusion, and minimum-cohort violations;
+- tenant-isolation and compromised-worker recovery tests;
+- audit-log completeness and tamper evidence;
+- optional differential privacy for released models and query results, with
+  explicit `(epsilon, delta)`, sampling, and composition accounting.
+
+An empirical attack failure is not a privacy guarantee. Report formal privacy
+accounting separately from attack resistance and always measure utility on the
+same workload used to measure leakage.
+
+### Validation and product acceptance
+
+Keep WESAD as the controlled FHE feasibility benchmark, but add product-facing
+fixtures from Synthea or MIMIC for clinical queries and from the cell-line,
+GDC, or HCA collections for biological and institutional privacy. The
+repository's data inventory identifies these candidates.
+
+Add acceptance gates for:
+
+- zero raw-data egress in healthcare-controlled mode;
+- query correctness, latency, throughput, and reproducibility targets;
+- tenant isolation, key rotation, revocation, and disaster recovery;
+- complete authorization and audit trails;
+- maximum permitted result size and data movement;
+- successful attack-resistance tests at each declared threat level;
+- documented upgrade, rollback, and dependency-management procedures.
+
+FHE should be selected when its confidentiality properties justify its cost.
+The platform must compare it against local plaintext, secure aggregation or
+federated execution, trusted execution, and differential privacy for each
+workload. This prevents the product from becoming coupled to a single compiler
+or cryptographic backend while preserving FHE as a high-value option for
+especially sensitive computations.
+
 ## Verification and acceptance
 
 ### Correctness tests
