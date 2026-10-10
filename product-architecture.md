@@ -1,8 +1,8 @@
-# nftpz product architecture
+# Run product architecture
 
 ## Executive summary
 
-`nftpz` is an FHE-native platform for computing across sensitive datasets that
+**Run** is an FHE-native platform for computing across sensitive datasets that
 cannot be pooled in plaintext. A workload author specifies a data contract and
 a computation. Each data owner maps local data into that contract, reviews the
 exact workload and release policy, encrypts the resulting tensors locally, and
@@ -10,12 +10,21 @@ sends only ciphertext to a remote execution service. The result remains
 encrypted until the authorized recipient decrypts it inside a customer-owned
 trust boundary.
 
+The public product family has four parts:
+
+1. **Run** is the complete collaboration and encrypted-compute platform.
+2. **Run Engine** is the FHE compiler and runtime.
+3. **Run Exchange** is the governed data-access marketplace.
+4. **Run Nodes** are customer-hosted data-plane agents.
+
+The OSS repository, Python package, and CLI retain the technical name `nftpz`.
+
 The product separates orchestration from computation:
 
-1. **Owner data planes** connect to private data, preprocess it, and encrypt it.
+1. **Run Nodes** connect to private data, preprocess it, and encrypt it.
 2. **The SaaS control plane** coordinates identities, contracts, policies,
    approvals, jobs, metering, and audit metadata.
-3. **The FHE execution plane** runs approved circuits over ciphertext in a
+3. **Run Engine** compiles and runs approved circuits over ciphertext in a
    public cloud or customer VPC.
 4. **The customer release authority** controls keys and decrypts approved
    outputs.
@@ -47,9 +56,9 @@ unsupported operation into plaintext.
 flowchart TB
     WA[Workload author] -->|contract and program| CP[Control plane]
     KA[Customer release<br/>authority] -->|public and evaluation keys| CP
-    CP -->|review bundle and key material| DP[Owner data planes<br/>A, B, ... N]
+    CP -->|review bundle and key material| DP[Run Nodes<br/>Owner A, B, ... N]
     DP -->|signed ciphertext batches| ES[(Encrypted object store)]
-    CP -->|execution plan| EP[FHE execution plane]
+    CP -->|execution plan| EP[Run Engine<br/>FHE execution]
     ES -->|ciphertext batches| EP
     EP -->|encrypted checkpoints and result| ES
     CP -->|result digest and approvals| KA
@@ -57,7 +66,7 @@ flowchart TB
     KA -->|approved artifact| RR[Result recipient]
 ```
 
-Ciphertext objects move directly between owner agents, execution storage, and
+Ciphertext objects move directly between Run Nodes, execution storage, and
 workers. The control plane receives object references, hashes, sizes, statuses,
 and policy metadata, not payload bytes.
 
@@ -83,9 +92,9 @@ operationally. Verifiable execution is a later cryptographic workstream.
 
 ## Planes and services
 
-### Owner data plane
+### Run Nodes (owner data plane)
 
-The data-plane agent is installed on a VM, bare-metal host, or Kubernetes
+A Run Node is installed on a VM, bare-metal host, or Kubernetes
 cluster controlled by each contributing organization. It uses outbound-only
 mTLS to communicate with the control plane and encrypted storage.
 
@@ -107,8 +116,8 @@ Core components:
   rows, validation summaries, and upload receipts without exposing values to
   the vendor.
 
-The agent never downloads and runs mutable code from the control plane. It runs
-only a content-addressed transform bundle that the owner has installed or
+The Run Node never downloads and runs mutable code from the control plane. It
+runs only a content-addressed transform bundle that the owner has installed or
 explicitly approved.
 
 ### SaaS control plane
@@ -138,7 +147,7 @@ Control-plane databases hold metadata only. Sensitive metadata is minimized,
 pseudonymous identifiers are preferred, and customer-visible audit events must
 show what the platform operator could observe.
 
-### FHE execution plane
+### Run Engine execution plane
 
 Execution planes are regional and can run in the vendor account, a dedicated
 customer VPC, or a sovereign/self-hosted environment. Each collaboration gets
@@ -232,7 +241,7 @@ provenance, measured cost, and signed execution receipts.
 Changing code, schema, contributors, outputs, keys, parameters, or policy
 creates a new version and invalidates prior approvals.
 
-## FHE compiler and runtime
+## Run Engine: FHE compiler and runtime
 
 ### Typed intermediate representation
 
@@ -346,7 +355,7 @@ The SDK produces clear tests, quantized simulation, unsupported-operation
 diagnostics, overflow and precision analysis, CPU/GPU compatibility, key and
 ciphertext sizes, runtime and cost estimates, and an immutable review bundle.
 
-### Data owner
+### Data owner and Run Node
 
 ```python
 from nftpz import fhe
@@ -364,6 +373,8 @@ rights, retention, estimated upload, and release policy.
 
 ### CLI
 
+The `nftpz` command remains the technical CLI namespace for the Run platform.
+
 ```text
 nftpz init
 nftpz doctor
@@ -372,7 +383,7 @@ nftpz simulate
 nftpz estimate
 nftpz publish
 nftpz collaboration invite
-nftpz agent install
+nftpz node install
 nftpz dataset validate
 nftpz dataset approve
 nftpz run start
@@ -394,7 +405,7 @@ stewards, reviewers, result recipients, and auditors.
 4. Each data owner reviews and approves the exact digest and implements its
    local mapping.
 5. The release authority generates the collaboration keys.
-6. Agents validate, preprocess, encrypt, sign, and upload data.
+6. Run Nodes validate, preprocess, encrypt, sign, and upload data.
 7. The control plane freezes a run manifest after required contributions arrive.
 8. Workers execute and checkpoint encrypted state.
 9. The result packager publishes an encrypted result and signed receipt.
@@ -458,7 +469,7 @@ until the complete deployment and operating organization have been assessed.
 
 ### Managed hybrid SaaS
 
-Vendor control plane, owner-hosted data agents, and vendor or customer-VPC FHE
+Vendor control plane, owner-hosted Run Nodes, and vendor or customer-VPC FHE
 workers. This is the default commercial profile.
 
 ### Dedicated customer VPC
@@ -475,11 +486,11 @@ defense adoption and carries separate licensing and support.
 ## Product roadmap and exit gates
 
 1. **Productize the regression POC:** expose the existing Concrete ML flow
-   through versioned artifacts, one data agent, execution worker, and offline
+   through versioned artifacts, one Run Node, execution worker, and offline
    result decryption.
-2. **Multi-owner pilot:** three agents contribute under one collaboration key;
-   complete approval, ciphertext upload, encrypted execution, release, and
-   audit flow.
+2. **Multi-owner pilot:** three Run Nodes contribute under one collaboration
+   key; complete approval, ciphertext upload, encrypted execution, release,
+   and audit flow.
 3. **General computation:** introduce the typed IR, core encrypted analytics,
    compatibility reports, and benchmark-backed cost estimator.
 4. **ML expansion:** generated autograd, functional optimizers, encrypted model
@@ -496,7 +507,7 @@ defense adoption and carries separate licensing and support.
 
 - Three organizations contribute differently sized datasets to one encrypted
   job without plaintext or a secret key reaching vendor systems.
-- An agent rejects a control-plane attempt to substitute unapproved code.
+- A Run Node rejects a control-plane attempt to substitute unapproved code.
 - Wrong-key, wrong-schema, expired, duplicate, corrupted, and replayed batches
   fail closed.
 - Worker interruption resumes without applying a batch twice.

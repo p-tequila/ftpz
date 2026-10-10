@@ -1,4 +1,4 @@
-# nftpz business case
+# Run business case
 
 ## Investment thesis
 
@@ -9,18 +9,18 @@ interactions, and expert decisions. Contracts, regulation, national-security
 rules, competitive sensitivity, and breach risk prevent these datasets from
 being pooled even when all parties would benefit from a joint model or analysis.
 
-`nftpz` makes those datasets computable without making them transferable. Data
+**Run** makes those datasets computable without making them transferable. Data
 owners keep plaintext inside their infrastructure, approve a specific program
 and output policy, and send ciphertext to an FHE execution service. The buyer
 receives only the authorized result or trained model.
 
 The company combines two economic engines:
 
-1. **A market for governed data access:** buyers pay for the right to run an
-   approved workload against otherwise inaccessible data. Data providers earn
-   revenue without delivering raw records.
-2. **Serverless encrypted computation:** every approved access request consumes
-   metered compilation, CPU/GPU FHE execution, encrypted storage, and transfer.
+1. **Run Exchange:** buyers pay for the right to run an approved workload
+   against otherwise inaccessible data. Data providers earn revenue without
+   delivering raw records.
+2. **Run Engine:** every approved access request consumes metered compilation,
+   CPU/GPU FHE execution, encrypted storage, and transfer.
 
 Enterprise governance subscriptions, dedicated deployments, and support are a
 third recurring layer. The result is a two-sided data network attached to a
@@ -54,7 +54,7 @@ valuable data but usually face a binary choice: refuse access or negotiate a
 copy under a complex data-use agreement. The copy creates ongoing loss of
 control, breach exposure, and uncertainty about secondary use.
 
-`nftpz` changes the object being sold. The provider licenses a narrow right to
+Run changes the object being sold. The provider licenses a narrow right to
 compute:
 
 - named data categories;
@@ -69,8 +69,17 @@ encrypted. The remote executor cannot decrypt it.
 
 ## Product
 
-`nftpz` is an FHE-native collaboration and execution platform, not a raw-data
+Run is an FHE-native collaboration and execution platform, not a raw-data
 broker and not only a cryptography SDK.
+
+The public product family has four parts:
+
+1. **Run** is the complete collaboration and encrypted-compute platform.
+2. **Run Engine** is the FHE compiler and runtime.
+3. **Run Exchange** is the governed data-access marketplace.
+4. **Run Nodes** are customer-hosted data-plane agents.
+
+The OSS repository, Python package, and CLI retain the technical name `nftpz`.
 
 ### For computation buyers
 
@@ -84,7 +93,8 @@ broker and not only a cryptography SDK.
 
 ### For data providers
 
-- Connect existing systems without moving plaintext to the vendor.
+- Deploy Run Nodes to connect existing systems without moving plaintext to the
+  vendor.
 - Implement the local mapping into the buyer's contract.
 - Review requested fields, program digest, participants, output, recipient,
   retention, and compensation.
@@ -121,10 +131,10 @@ the enterprise controls what is licensed.
 
 That model demonstrates willingness on both sides of a marketplace: AI labs
 pay for scarce, domain-specific training signal, and knowledge holders expect
-to be compensated. `nftpz` applies the same economic pattern to institutional
-datasets that are too regulated or sensitive to transfer. Mercor organizes
-experts and licensable data; `nftpz` organizes permissioned computation over
-data that remains encrypted and under provider control.
+to be compensated. Run Exchange applies the same economic pattern to
+institutional datasets that are too regulated or sensitive to transfer.
+Mercor organizes experts and licensable data; Run organizes permissioned
+computation over data that remains encrypted and under provider control.
 
 ### Cloud vendors have validated confidential collaboration as a category
 
@@ -137,7 +147,7 @@ data that remains encrypted and under provider control.
   targets collaborations where parties do not trust each other or the workload
   operator.
 
-These products validate the buyer, workflow, and governance need. `nftpz`
+These products validate the buyer, workflow, and governance need. Run
 differentiates through FHE: the execution service operates on ciphertext rather
 than making plaintext available inside a hardware-protected environment.
 
@@ -161,7 +171,7 @@ processing, minimization, and governance requirements.
 FHE can reduce who can view data during computation, but it is not a regulatory
 exemption. [HHS cloud guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/health-information-technology/cloud-computing/index.html)
 states that a provider maintaining encrypted ePHI remains a business associate
-even when it lacks the key. `nftpz` should sell reduced exposure and stronger
+even when it lacks the key. Run should sell reduced exposure and stronger
 technical control, not automatic compliance.
 
 ## Priority markets and use cases
@@ -184,7 +194,7 @@ biopharma sponsors, medical-device companies, and research institutes.
 - cross-site model validation and bias analysis.
 
 **Commercial transaction:** the sponsor pays participating institutions for
-approved computational access and pays `nftpz` for marketplace coordination,
+approved computational access and pays Run for marketplace coordination,
 governance, and encrypted compute. The approved output might be a trained model
 or aggregate report; patient-level data is never a deliverable.
 
@@ -232,7 +242,7 @@ domain-data companies, expert networks, model evaluators, and software vendors.
 - encrypted linear-layer execution for hybrid LoRA workflows.
 
 The business opportunity resembles expert-data platforms: labs pay for scarce,
-high-value signal. The difference is that `nftpz` enables use of existing
+high-value signal. The difference is that Run enables use of existing
 institutional records and workflows without giving the lab a reusable copy.
 Full FHE pretraining of frontier models is not a near-term product claim.
 
@@ -246,7 +256,7 @@ Full FHE pretraining of frontier models is not a near-term product claim.
 
 ## Monetization model
 
-### 1. Governed data-access marketplace
+### 1. Run Exchange: governed data-access marketplace
 
 The primary transaction is the right to run a named workload, not the sale of a
 raw dataset.
@@ -273,7 +283,7 @@ volume rather than consent, quality, representativeness, and scientific value.
 
 #### Provider payout
 
-The platform collects the buyer payment, retains a marketplace take rate, and
+Run Exchange collects the buyer payment, retains a marketplace take rate, and
 distributes the provider pool according to the signed commercial terms. A deal
 can combine:
 
@@ -311,10 +321,10 @@ the business plan should not assume one universal percentage across verticals.
   monetized merely because it can be encrypted.
 - Where law, consent, ethics, or public policy prohibits commercial use, the
   marketplace transaction is unavailable even if the computation is feasible.
-- `nftpz` should avoid taking ownership of source data. It brokers rights,
+- Run should avoid taking ownership of source data. It brokers rights,
   execution, payment, and evidence.
 
-### 2. Serverless FHE computation
+### 2. Run Engine: serverless FHE computation
 
 Every workload receives a pre-run quote and a hard budget limit. Billable units
 are customer-readable infrastructure quantities rather than obscure
@@ -355,13 +365,13 @@ Cloud worker cost, upstream FHE licensing, and support are direct COGS. Gross
 margin improves through circuit caching, batching, packing, GPU utilization,
 reserved cloud capacity, backend optimization, and accurate scheduling.
 
-### 3. Enterprise platform subscription
+### 3. Run platform subscription
 
 The annual subscription covers the durable control layer:
 
 - organizations, collaborations, and role management;
 - SSO/SCIM and policy workflows;
-- connectors and data agents;
+- Run Nodes and connectors;
 - workload registry and approval UI;
 - audit export and compliance evidence;
 - budgets, quotas, release ledgers, and support;
@@ -378,14 +388,14 @@ For a commercial multi-hospital training run:
 ```text
 buyer invoice =
     institutional data-access fees
-  + nftpz marketplace fee
+  + Run Exchange fee
   + serverless FHE compute and storage
   + allocated enterprise subscription
   + optional services
 ```
 
 ```text
-nftpz contribution margin =
+Run contribution margin =
     marketplace fee
   + compute revenue
   + subscription allocation
@@ -401,7 +411,7 @@ Investor reporting should always show gross transaction value, provider
 payouts, net marketplace revenue, compute revenue, and subscription revenue
 separately.
 
-## Marketplace workflow
+## Run Exchange workflow
 
 1. A buyer publishes a private data request describing purpose, target schema,
    workload, output, eligibility, geography, duration, and budget.
@@ -447,7 +457,7 @@ validate the business.
   controlled aggregate release.
 - **Sovereign collaboration:** self-hosted control and execution, offline
   promotion, CUI-oriented controls.
-- **Private AI adaptation:** customer data agent, hybrid encrypted linear
+- **Private AI adaptation:** customer-hosted Run Node, hybrid encrypted linear
   layers, approved adapter/model export.
 
 Packages provide repeatability without fragmenting the platform or compiler.
@@ -468,7 +478,7 @@ providers, then additional workloads under the same governance deployment.
 
 ## Competitive landscape
 
-| Category | Strength | Limitation relative to nftpz |
+| Category | Strength | Limitation relative to Run |
 |---|---|---|
 | Raw-data licensing | Maximum compute flexibility | Provider loses technical control after transfer |
 | Expert/data networks such as Mercor | Proven demand for scarce training signal and managed supply | Usually create or license data rather than execute over institution-controlled ciphertext |
@@ -477,7 +487,7 @@ providers, then additional workloads under the same governance deployment.
 | MPC | Strong multi-party protocols | Communication-heavy and workload-specific |
 | De-identification and synthetic data | Familiar workflow and broad tool support | Utility loss and residual linkage or membership risk |
 | FHE libraries | Strong cryptographic building blocks | Lack two-sided marketplace, connectors, policy, billing, and enterprise workflow |
-| nftpz | Governed data access plus FHE serverless compute | Higher compute cost and a constrained program envelope |
+| Run | Governed data access plus FHE serverless compute | Higher compute cost and a constrained program envelope |
 
 FHE, TEEs, MPC, federated learning, and DP can be complementary. The product
 should win workloads where hiding data from the central executor justifies FHE
@@ -551,7 +561,7 @@ Do not rely on a generic privacy-tech TAM. Build the model from:
 annual platform revenue =
     active enterprise deployments * annual subscription
 
-annual marketplace revenue =
+annual Run Exchange revenue =
     completed paid collaborations * average access value * net take rate
 
 annual compute revenue =
@@ -567,7 +577,7 @@ frequency, provider payout, FHE cost, and gross margin.
 ## Milestones
 
 1. Reproduce the encrypted regression POC with measured cost and utility.
-2. Run one job across three independent data-owner agents.
+2. Run one job across three independent Run Nodes.
 3. Demonstrate customer-controlled keys, exact workload approval, and governed
    output release.
 4. Close a paid pilot where the buyer cannot otherwise access the contributed
@@ -625,8 +635,8 @@ agility.
 ### Cloud competition
 
 Cloud vendors can bundle clean rooms with storage and ML. Differentiate through
-FHE rather than enclave-only trust, cross-cloud and on-prem portability, the
-data-access marketplace, workload-level rights, and a backend-neutral runtime.
+FHE rather than enclave-only trust, cross-cloud and on-prem portability, Run
+Exchange, workload-level rights, and a backend-neutral runtime.
 
 ### Enterprise sales cycles
 
@@ -642,7 +652,7 @@ Capital primarily funds:
 - data-plane connectors and secure deployment;
 - GPU performance and cost modeling;
 - security review, key management, and enterprise controls;
-- marketplace operations, provider onboarding, and standard contracts;
+- Run Exchange operations, provider onboarding, and standard contracts;
 - forward-deployed engineering for the first repeatable vertical packages.
 
 The company should not scale marketplace supply ahead of executable demand.
