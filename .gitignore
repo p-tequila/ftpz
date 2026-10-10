@@ -3,3 +3,22 @@ __pycache__/
 *.pyc
 .DS_Store
 outputs/
+
+# Downloaded third-party datasets and extracted benchmark inputs.
+# Keep provenance and small metadata fixtures tracked, but do not publish raw
+# archives or clinical/physiological data in this public repository.
+data/pdf-datasets/**
+!data/pdf-datasets/README.md
+!data/pdf-datasets/wesad/
+!data/pdf-datasets/wesad/WESAD_uci_metadata.zip
+
+data/additional/synthea/**
+!data/additional/synthea/
+!data/additional/synthea/synthea_sample_data_csv_latest.zip
+
+# Keep the two small metadata snapshots available for dataset discovery.
+!data/additional/hca/projects.json
+!data/additional/gdc/tcga_brca_metadata.json
+
+# OS/editor artifacts
+__MACOSX/

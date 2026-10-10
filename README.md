@@ -149,3 +149,11 @@ python -m unittest discover -s tests -v
 [Encrypted training](https://docs.zama.org/concrete-ml/built-in-models/training) ·
 [Linear models](https://docs.zama.org/concrete-ml/built-in-models/linear) ·
 [Deployment](https://docs.zama.org/concrete-ml/guides/client_server)
+
+## Project documentation
+
+- [Platform plan](plan.md)
+- [Product architecture](product-architecture.md)
+- [Business case](business-case.md)
+- [Dataset inventory](data.md)
+- [Adversarial testing](adversarial-testing/README.md)
