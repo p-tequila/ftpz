@@ -1,0 +1,11 @@
+**
+!requirements.txt
+!requirements-platform.txt
+!nftpz_platform/
+!nftpz_platform/**
+!diabetes_demo/
+!diabetes_demo/**
+!deployment/
+!deployment/Dockerfile.worker
+**/__pycache__
+**/*.pyc

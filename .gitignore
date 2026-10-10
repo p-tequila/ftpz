@@ -3,6 +3,12 @@ __pycache__/
 *.pyc
 .DS_Store
 outputs/
+.runtime/
+.env*
+!*.env.example
+*.keys
+*.pem
+*.sqlite*
 
 # Downloaded third-party datasets and extracted benchmark inputs.
 # Keep provenance and small metadata fixtures tracked, but do not publish raw

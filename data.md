@@ -23,9 +23,10 @@ checksums below.
 
 | Dataset | Local path | Scope | Git status | Main purpose |
 |---|---|---|---|---|
-| Synthea | `data/additional/synthea/` | 100 synthetic patients, CSV | local-only | Individual membership, linkage, and query-differencing tests |
+| Synthea | `data/additional/synthea/` | 108 synthetic patients in this local archive, CSV | local-only | Individual membership, linkage, and query-differencing tests |
 | Human Cell Atlas | `data/additional/hca/projects.json` | 20-project metadata snapshot | tracked | Donor/tissue/project/lab provenance planning |
-| GDC / TCGA-BRCA | `data/additional/gdc/tcga_brca_metadata.json` | 100 open API case metadata records | tracked | Cancer cohort/site/clinical-attribute query tests |
+| GDC / TCGA-BRCA | `data/additional/gdc/tcga_brca_metadata.json` | 100 case/project identifiers only | tracked | Metadata/provenance; no clinical-attribute prediction from this snapshot |
+| Diabetes | `data/diabetes/` | 442 records, 10 original features | tracked | Executable encrypted training/inference and count benchmark |
 
 ## Reproduction sources
 
@@ -53,13 +54,14 @@ e2c74e207b01f04ded7806ed83063b782e9deed07d865b7d5152d1580ed6cd8d  data/additiona
 
 ## Benchmark readiness
 
-The first data-backed benchmark should use:
+The runnable adapters now cover diabetes, Synthea, MIMIC demo, HAR and BIDMC:
+**five training/query datasets** plus **two metadata-only snapshots**. HAR has
+10,299 windows from 30 subjects. BIDMC has 53 records and 46 distinct local
+record IDs; identical IDs are conservatively grouped together. WESAD's wrapper
+is not the actual signal dataset. The separately held cell-line collection is
+not imported or verified here and must not be counted as 12 ready datasets.
 
-1. the 12-cell-line collection for `BIO + ORG` leakage and utility;
-2. Synthea for `IND` membership/linkage and adaptive query leakage;
-3. MIMIC-IV demo for clinical query semantics;
-4. WESAD or BIDMC for cross-modality/physiological identity leakage.
-
-The executable attack harness is intentionally not committed yet; the
-adversarial-testing directory currently contains the reviewed attack catalog
-and threat-model specification.
+`nftpz_platform.datasets.inventory()` computes actual shapes, availability and
+source hashes. `benchmarks/README.md` describes executable tests; the precise
+attack implementation status is in `adversarial-testing/implemented-methods.md`.
+The original paper catalog contains planned methods beyond this runnable subset.

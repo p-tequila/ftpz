@@ -1,5 +1,25 @@
 # Diabetes · final FHE demo
 
+## Multi-silo platform and benchmarks
+
+The new [`nftpz_platform`](benchmarks/README.md) extends this demo with four
+owner silos, Concrete ML encrypted **cloud** training, encrypted cohort counts,
+signed execution approval, local release policies and real-data security/utility
+benchmarks. Hospitals do not run model training. Start with:
+
+```bash
+bash scripts/platform.sh --mode baseline
+bash scripts/platform.sh --mode execute --datasets diabetes
+```
+
+See the [implemented attack methods](adversarial-testing/implemented-methods.md)
+and [Azure deployment scaffold](deployment/README.md). The demo below is retained
+unchanged; its ten-feature/train-fitted-scaler setup differs from the platform's
+fixed-public-bounds benchmark. Local subprocesses are not a production sandbox,
+and the Azure deployment is not automatically provisioned by these commands.
+
+## Original single-dataset demo
+
 Open **`outputs/final/report.html`** for the measured comparison and full illustrated
 client/server pipeline. All final models and keys live under `outputs/final/models/`.
 

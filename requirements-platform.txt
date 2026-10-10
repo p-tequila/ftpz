@@ -1,0 +1,5 @@
+-r requirements.txt
+cryptography==50.0.2
+azure-storage-blob==12.31.0
+azure-identity==1.26.0
+pytest==9.1.1
