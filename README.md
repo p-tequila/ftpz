@@ -152,7 +152,6 @@ python -m unittest discover -s tests -v
 
 ## Project documentation
 
-- [Platform plan](plan.md)
 - [Product architecture](product-architecture.md)
 - [Key management and model release](key-exchange.md)
 - [Business case](business-case.md)

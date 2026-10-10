@@ -15,7 +15,8 @@ The public product family has four parts:
 1. **Run** is the complete collaboration and encrypted-compute platform.
 2. **Run Engine** is the FHE compiler and runtime.
 3. **Run Exchange** is the governed data-access marketplace.
-4. **Run Nodes** are customer-hosted data-plane agents.
+4. **Run Nodes** are participant-hosted data-plane agents, normally controlled
+   by the data holder whose records they process.
 
 The OSS repository, Python package, and CLI retain the technical name `nftpz`.
 
@@ -28,8 +29,14 @@ The product separates orchestration from computation:
    public cloud or customer VPC.
 4. **Data-holder key guardians** hold shares of the collaboration secret and
    authorize release of an exact encrypted result.
-5. **The customer key authority** holds a separate output secret key and
-   decrypts only results released to that key.
+5. **The customer key authority** holds a separate recipient secret key and
+   reconstructs only results released to that key.
+
+Run manages the key-protocol state machine and evidence, but the cryptographic
+and data-use agreement is directly between the customer and participating data
+holders. Run is neither a key guardian nor a release approver: it holds no FHE
+secret, contributes no distributed-key-generation share, and cannot replace a
+customer or holder signature.
 
 The long-term product supports broad computation and general ML/AI training.
 Every release must publish a capability matrix that distinguishes certified,
@@ -41,6 +48,9 @@ unsupported operation into plaintext.
 - Plaintext stays in the data owner's environment.
 - The control plane does not execute sensitive computations.
 - The execution plane never receives an FHE secret key.
+- Run coordinates key ceremonies and release without becoming a key holder.
+- Only holder-controlled Nodes can originate an accepted data contribution;
+  every ciphertext envelope requires a data-holder signature.
 - Every run binds exact code, schemas, contributors, keys, policies, and output
   rights into an immutable manifest.
 - Every contributing organization approves the exact workload and result
@@ -56,17 +66,21 @@ unsupported operation into plaintext.
 
 ```mermaid
 flowchart TB
-    C[Model / computation<br/>customer] -->|program + policy + pk_out| CP[Run control plane]
-    G[Data-holder<br/>key guardians] -->|pk_collab + evk| CP
-    CP -->|approved program + pk_collab| N[Run Nodes<br/>at data holders]
+    C[Model / computation<br/>customer] -->|signs program, policy,<br/>and pk_out| A[Customer-data-holder<br/>agreement]
+    G[Data-holder<br/>key guardians] -->|sign participation<br/>and release terms| A
+    CP[Run control plane] -.->|manages signatures,<br/>ceremony, and audit| A
+    A -->|fully signed manifest| CP
+    G -->|pk_collab| N[Holder-controlled<br/>Run Nodes]
+    G -->|evk| E[Run Engine]
+    CP -->|approved program + manifest| N
     N -->|encrypted training data| S[(Encrypted artifact store)]
-    CP -->|manifest + evk| E[Run Engine]
+    CP -->|manifest + job| E
     S -->|encrypted batches| E
     E -->|encrypted weights| S
     CP -->|result digest + release request| G
-    G -->|threshold release shares| R[Release combiner]
+    G -->|threshold release shares| R[Release coordinator]
     S -->|encrypted weights| R
-    R -->|weights under pk_out| K[Customer<br/>key authority]
+    R -->|recipient-encrypted release| K[Customer<br/>key authority]
     K -->|decrypt and export| M[Plaintext model]
 ```
 
@@ -83,7 +97,7 @@ and policy metadata, not payload bytes.
 | `nftpz` worker | Run Engine worker | Receives ciphertext and evaluation keys, runs encrypted training, and cannot decrypt inputs, state, or weights. |
 | Encrypted final weights | Result ciphertext, `ct_weights` | Initially remains under `pk_collab`; it is not yet decryptable by the customer. |
 | Customer/consortium key authority | Data-holder key guardians plus the customer key authority | Split into two roles so the customer never receives the collaboration secret. |
-| Model buyer | Model or computation customer | Holds only the output secret key and decrypts weights after threshold-approved release. |
+| Model buyer | Model or computation customer | Holds only the recipient secret key and recovers weights after threshold-approved release. |
 
 The image's simpler design uses one FHE key pair: hospitals encrypt with its
 public key and the customer or consortium holds its secret key. That flow is
@@ -103,8 +117,9 @@ customer.
 | Security/privacy reviewer | Reviews code digest, data-use purpose, output policy, security profile, and retention | Data outside the approved local review path |
 | Model/computation customer | Supplies the signed workload and output public key and receives the approved result | Raw contributor data, collaboration-key shares, and intermediate state |
 | Data-holder key guardian | Participates in distributed key generation, protects one secret share, and issues a release share for an approved result | The complete collaboration secret and other holders' plaintext |
-| Customer key authority | Protects the output secret key and decrypts the result after release | The collaboration secret, training ciphertext plaintexts, and unapproved outputs |
-| Platform operator | Operates control and execution services | Secret keys, plaintext inputs, intermediates, and results |
+| Customer key authority | Protects the recipient secret key and reconstructs the result after release | The collaboration secret, training ciphertext plaintexts, and unapproved outputs |
+| Run protocol manager | Manages agreement signatures, ceremony rounds, authenticated message relay, quorum state, retries, and audit evidence | Key shares, guardian randomness, plaintext, and authority to consent or release |
+| Platform operator | Operates control and execution services | Data-holder signing keys, secret keys, plaintext inputs, intermediates, and results |
 | Auditor | Reads immutable manifests, approvals, receipts, and security evidence | Plaintext unless separately authorized |
 
 The execution service is assumed to be honest-but-curious for confidentiality
@@ -142,7 +157,10 @@ Core components:
 
 The Run Node never downloads and runs mutable code from the control plane. It
 runs only a content-addressed transform bundle that the owner has installed or
-explicitly approved.
+explicitly approved. Its FHE encryption endpoint and contribution-signing key
+are controlled by the data holder, not by Run. The node accepts a locally
+authorized job token only after verifying the fully signed collaboration
+manifest.
 
 ### SaaS control plane
 
@@ -152,6 +170,9 @@ The managed control plane contains:
   identities, and organization boundaries.
 - **Collaboration service:** membership, purpose, contracts, regional settings,
   budgets, and lifecycle.
+- **Key-protocol manager:** coordinates manifest signatures, DKG and release
+  rounds, authenticated opaque-message delivery, deadlines, quorum state, and
+  transcript storage without generating or holding a key share.
 - **Schema and metadata catalog:** dataset contracts, fields, units,
   modalities, consent and use restrictions, quality summaries, and lineage.
 - **Workload registry:** immutable program bundles, compiler reports,
@@ -169,7 +190,9 @@ The managed control plane contains:
 
 Control-plane databases hold metadata only. Sensitive metadata is minimized,
 pseudonymous identifiers are preferred, and customer-visible audit events must
-show what the platform operator could observe.
+show what the platform operator could observe. The control plane stores the
+collaboration public-key fingerprint rather than providing a cloud encryption
+API; guardians deliver the public key directly to holder-controlled Nodes.
 
 ### Run Engine execution plane
 
@@ -197,28 +220,42 @@ Jobs are batch-oriented. A retry resumes from the last committed encrypted
 checkpoint and cannot apply a batch twice. A worker must reject mismatched
 program, key, schema, batch, or context identifiers.
 
-### Key guardians, release combiner, and customer key authority
+### Key guardians, release coordinator, and customer key authority
 
 Each data holder operates a key guardian beside its Run Node or delegates that
 role to an independently governed custodian. Guardians use distributed key
 generation; no complete collaboration secret is ever constructed. Each share
 is non-exportable where the backend and HSM integration permit it.
 
-The customer key authority runs in the result owner's environment. It creates
-a separate output key pair, publishes only `pk_out`, and keeps `sk_out` in an
-HSM, KMS, or offline key host. It never receives a collaboration-key share.
+Run manages the ceremony as an untrusted coordinator: it opens rounds, relays
+authenticated messages, enforces the manifest's participant set, records
+receipts and transcript hashes, and handles timeouts. It does not act as a
+dealer, contribute randomness, hold a guardian share, or decide that an
+agreement or release is approved. The customer and data holders directly sign
+those decisions; Run only verifies that the required signatures exist.
 
-For an approved result, a policy threshold of guardians produces shares for a
-collective public-key switch of the exact `ct_weights` to `pk_out`. The release
-combiner can be untrusted: it aggregates shares into `ct_weights_out`, but it
-does not learn plaintext or either secret key. The customer decrypts
-`ct_weights_out`, dequantizes the parameters, and loads an ordinary model.
+The customer key authority runs in the result owner's environment. It creates
+a separate recipient key pair, publishes only `pk_out`, and keeps `sk_out` in
+an HSM, KMS, or offline key host. It never receives a collaboration-key share.
+
+For an approved result, a policy threshold of guardians runs the backend's
+result-specific release protocol for the exact `ct_weights` and `pk_out`. The
+preferred TFHE path partially decrypts at each guardian and signcrypts every
+share to the customer. The customer authenticates and combines the shares; no
+guardian or Run service learns the model. A compatible CKKS/BGV backend may
+instead collectively switch `ct_weights` to an FHE recipient key.
+
+The Run-managed release coordinator is untrusted. It validates outer
+signatures and forwards or aggregates opaque shares, but it does not learn
+plaintext or either secret key. It exposes no general decryption endpoint and
+cannot manufacture a guardian approval.
 
 Every guardian verifies the collaboration, run manifest, program and circuit
 digests, input commitment root, result ciphertext digest, output schema,
 recipient-key fingerprint, approval quorum, expiry, and unique release ID
 before producing a share. It persists and replays the same signed share for an
-idempotent retry instead of generating another share.
+idempotent retry instead of generating another share. Production requires a
+maliciously secure and robust protocol; a threshold count alone is insufficient.
 
 The full protocol, threat model, POC fallback, and backend options are specified
 in [`key-exchange.md`](key-exchange.md).
@@ -301,8 +338,8 @@ compile(graph, contract, target) -> ProgramBundle
 client_spec(program) -> ClientSpecification
 encrypt(client_spec, batch) -> CiphertextBatch
 execute(program, evaluation_keys, ciphertexts) -> CiphertextResult
-release(result, output_public_key, threshold_shares) -> CiphertextResult
-decrypt(client_spec, output_secret_key, released_result) -> PlainResult
+release(result, recipient_public_key, threshold_shares) -> ReleasedResult
+decrypt(client_spec, recipient_secret_key, released_result) -> PlainResult
 ```
 
 Concrete and Concrete ML are the first backend for exact integer arithmetic,
@@ -428,25 +465,27 @@ stewards, reviewers, result recipients, and auditors.
 
 ## End-to-end workflow
 
-1. The workload author publishes a dataset contract, computation, tests, and
-   release policy.
+1. The customer proposes and signs a dataset contract, computation, tests,
+   recipient key, data-use terms, and release policy; each participating data
+   holder directly countersigns the immutable collaboration agreement.
 2. Clear execution, FHE simulation, compatibility analysis, and cost estimation
    must pass.
 3. Compilation emits an immutable program and execution plan.
 4. Each data owner reviews and approves the exact digest and implements its
    local mapping.
-5. Data-holder key guardians run distributed key generation and publish
-   `pk_collab` and the required evaluation keys.
+5. Run manages the ceremony rounds and transcript while data-holder guardians
+   run dealerless distributed key generation and publish `pk_collab` and the
+   required evaluation keys; Run receives no share.
 6. The customer registers a signed, collaboration-bound output public key,
    `pk_out`.
-7. Run Nodes validate, preprocess, encrypt, sign, and upload data under
-   `pk_collab`.
+7. Holder-controlled Run Nodes validate, preprocess, encrypt, sign, and upload
+   data under `pk_collab`; unsigned or non-holder contributions are rejected.
 8. The control plane freezes a run manifest after required contributions arrive.
 9. Workers execute and checkpoint encrypted state.
 10. The result packager publishes an encrypted result and signed receipt.
 11. Required organizations approve the exact result and run digests.
-12. Guardians create result-specific public-key-switch shares to `pk_out`; the
-    release combiner emits `ct_weights_out`.
+12. Guardians create result-specific private-decryption or public-key-switch
+    shares for `pk_out`; the release coordinator emits an opaque release bundle.
 13. The customer key authority decrypts and exports the approved artifact.
 14. Retention removes ciphertexts, evaluation keys, release shares, and
     temporary artifacts while preserving permitted evidence.
@@ -478,7 +517,9 @@ FHE does not address every risk:
 Required controls include signed artifacts, owner-side digest enforcement,
 minimum-contributor policies, fixed payload classes where practical, release
 ledgers, repeated-query budgets, optional DP, key rotation and revocation,
-malware and supply-chain controls, and the repository's adversarial benchmark.
+malware and supply-chain controls, authenticated ciphertext envelopes, a
+non-public release API, backend-reviewed decryption-noise bounds, and the
+repository's adversarial benchmark.
 
 For healthcare, encryption does not remove contractual or regulatory duties.
 [HHS guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/health-information-technology/cloud-computing/index.html)
@@ -543,6 +584,28 @@ defense adoption and carries separate licensing and support.
 7. **Crypto agility:** OpenFHE experiments, threshold release, approximate
    arithmetic, and verifiable-execution research.
 
+## Reference full-cycle POC
+
+The product POC uses one frozen train/test split, preprocessing artifact, model
+definition, seed, batch order, and evaluation harness across four runs:
+
+1. `subset_plain`: ordinary PyTorch training on one holder's subset, modeling
+   what the customer can train without the collaboration;
+2. `all_plain`: ordinary PyTorch training on the union, used only as a utility
+   upper bound in the experiment environment;
+3. `all_sim`: the Run quantized graph over all holders in FHE simulation; and
+4. `all_fhe`: the same Run graph over every holder's encrypted contribution.
+
+The mandatory benchmark uses a horizontally partitioned public dataset such as
+WESAD. It reports macro-F1, per-class recall, inference agreement, weight or
+logit error, compile and execution time, peak memory, ciphertext bytes, and
+cost. After `all_fhe`, the data-holder guardians release only the final model
+to the customer's recipient key. The customer reconstructs the weights, loads
+them into stock PyTorch, and runs ordinary held-out inference. The POC is
+complete only when the report compares `subset_plain` with `all_fhe`, and uses
+`all_plain` and `all_sim` to separate the value of additional data from FHE
+quantization and execution error.
+
 ## Product acceptance tests
 
 - Three organizations contribute differently sized datasets to one encrypted
@@ -555,6 +618,8 @@ defense adoption and carries separate licensing and support.
   tolerances.
 - Result release fails without the required guardian threshold and succeeds
   only for the named recipient key and exact result digest.
+- Run cannot replace a customer or holder signature, contribute a guardian
+  share, or originate an accepted ciphertext contribution.
 - The customer decrypts the released model but cannot decrypt any stored input,
   checkpoint, or pre-release result ciphertext with `sk_out`.
 - Logs, metrics, support bundles, images, and storage metadata contain no

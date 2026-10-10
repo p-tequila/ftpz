@@ -77,7 +77,8 @@ The public product family has four parts:
 1. **Run** is the complete collaboration and encrypted-compute platform.
 2. **Run Engine** is the FHE compiler and runtime.
 3. **Run Exchange** is the governed data-access marketplace.
-4. **Run Nodes** are customer-hosted data-plane agents.
+4. **Run Nodes** are participant-hosted data-plane agents, normally controlled
+   by the data holder whose records they process.
 
 The OSS repository, Python package, and CLI retain the technical name `nftpz`.
 
@@ -107,6 +108,8 @@ The OSS repository, Python package, and CLI retain the technical name `nftpz`.
 
 - Immutable workload and schema versions.
 - Explicit data-use and release policies.
+- A directly signed customer-data-holder agreement; Run manages the workflow
+  but cannot replace either side's consent.
 - Organization-controlled key custody.
 - Multi-party approvals and revocation.
 - Retention, deletion, and incident-response controls.
@@ -621,9 +624,13 @@ release.
 
 ### Key-holder trust
 
-V1 has one customer-controlled secret key with policy-based multi-party
-approval. This is not cryptographic threshold control. Offer an independent
-custodian for sensitive pilots and invest in a threshold-capable backend.
+The engine-validation POC may use one customer-controlled secret key, but this
+does not cryptographically protect captured input ciphertexts from that
+customer. The product design uses data-holder-controlled threshold key shares
+and a separate customer recipient key. Run manages agreement signatures,
+ceremony rounds, message relay, and audit evidence while holding no key share
+and having no authority to release. Commercial multi-owner claims remain
+blocked until a compatible maliciously secure threshold backend is validated.
 
 ### Upstream dependency and licensing
 
