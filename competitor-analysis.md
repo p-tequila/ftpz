@@ -6,7 +6,7 @@ results, or roadmap._
 
 ## Executive conclusion
 
-Run sits at the intersection of three existing product categories:
+Run sits at the intersection of four existing product categories:
 
 **MDClone** is a healthcare-specific data and analytics platform. Its ADAMS
 Platform organizes longitudinal clinical data, supports self-service cohort
@@ -25,21 +25,34 @@ and analytics. Lattica is the closest technical competitor to Run Engine, but
 its publicly documented workflow is inference- and query-oriented rather than
 multi-data-holder model training.
 
-**Run** is an FHE-native governed-computation platform. A customer submits a
-frozen program; data holders locally prepare and encrypt real records; Run
-Engine executes the approved program over ciphertext; and data-holder
-guardians release only the approved result to the customer. Run does not make
-a synthetic copy available for open-ended exploration. Its advantage is a
-cryptographic separation between access to source data and the right to run a
-specific computation on that data.
+**Duality Technologies** is a multi-PET collaboration platform. Its public FHE
+material already describes encrypted querying, analytics, model training and
+inference, data preparation, computation governance, multi-party workflows,
+and data monetization. Duality therefore invalidates any positioning that
+treats FHE training or governed computation as a category unique to Run.
+
+**AWS Data Exchange and AWS Clean Rooms** together represent the strongest
+commercial analogue. Data Exchange provides catalog, offers, subscriptions,
+entitlements, and contract or metered pricing. Clean Rooms provides controlled
+multi-party analysis, separates the member running a job from the member
+receiving its result, and lets a designated member pay compute costs. The two
+products do not form Run's proposed cryptographic protocol, but they show that
+data commerce and governed computation are already independent product layers.
+
+**Run** should therefore be positioned as a governed data-computation
+exchange, not as a company whose primary asset is a novel FHE algorithm. A
+customer buys a narrow right to execute an approved program; data holders set
+terms and contribute encrypted records; a compatible privacy backend executes
+the job; and Run meters the transaction, controls release, settles payment,
+and pays providers. Run Engine is the initial FHE fulfillment layer, but the
+commercial product is the transaction network above it.
 
 The concise positioning is therefore:
 
-> MDClone lets a user explore a privacy-protected representation of healthcare
-> data. Lattica lets an end user privately query a deployed model or encrypted
-> workload. Run is intended to let multiple data holders jointly train or
-> execute an approved program on encrypted real data and release only the
-> agreed result.
+> Run turns sensitive data into priced, enforceable computation rights. Buyers
+> purchase an approved outcome rather than a copy of the data; providers retain
+> custody, approve release, and receive payment; Run orchestrates execution and
+> settlement without obtaining the keys needed to decrypt inputs or outputs.
 
 This is not a claim that Run is categorically "more private." The systems
 protect different objects and expose different outputs. MDClone's privacy
@@ -48,27 +61,33 @@ deployment. Lattica and Run both depend on FHE parameters, implementation, key
 custody, metadata controls, and output handling. A released inference answer,
 query result, or trained model can still reveal sensitive information.
 
-Run does not have an uncontested category. Duality publicly offers secure
-querying, federated analytics, and collaborative model training using a mix of
-HE, MPC, federated learning, differential privacy, and TEEs. Enveil offers
-cross-silo encrypted search, analytics, and machine learning. Sherpa.ai offers
-multi-party federated training, while Opaque offers confidential AI using
-hardware-isolated execution. Run's differentiation must therefore come from
-the complete product combination—not merely from using FHE:
+Run does not have an uncontested technical category. Duality, Enveil,
+Sherpa.ai, Opaque, LatticaAI, and open-source FHE stacks provide overlapping
+ways to compute on protected data. Run's differentiation must come from the
+commercial system that makes protected computation transactable:
 
-- FHE-compatible autograd and optimizer execution, not only inference;
-- direct customer-data-holder agreements and program-level usage rights;
-- data-holder-controlled collaboration keys and recipient-specific release;
-- a two-sided data-access marketplace; and
-- metered serverless encrypted computation.
+- discovery and qualification of otherwise inaccessible data supply;
+- direct customer-data-holder agreements expressed as program-level rights;
+- pricing, budgets, metering, escrow or preauthorization, settlement, and
+  provider payouts;
+- output licensing, release controls, audit evidence, and repeat-use limits;
+- a backend-neutral execution interface that can select FHE, MPC, federated
+  learning, or a TEE when policy permits; and
+- marketplace liquidity and repeatable regulated-industry workflows.
+
+FHE-compatible autograd and optimizer execution remain valuable product
+capabilities, especially for the initial training wedge. They are a means of
+fulfilling transactions, not the durable business moat.
 
 ## Competitive landscape
 
 | Category | Representative companies/projects | Primary buyer need | Relationship to Run |
 |---|---|---|---|
+| Data products, catalog, and entitlements | AWS Data Exchange and other cloud data marketplaces | Discover, license, and meter third-party data products | Closest analogue for Run Exchange's commercial mechanics, but usually grants access to data assets or APIs rather than one encrypted computation right |
+| Governed multi-party computation | AWS Clean Rooms and cloud clean-room products | Analyze data across parties under configured roles, rules, and billing | Strong workflow and distribution substitute; usually tied to a cloud and a supported clean-room execution model |
 | Synthetic healthcare data and self-service analytics | MDClone | Explore cohorts and share useful healthcare derivatives quickly | Commercial workflow competitor and potential upstream discovery/data partner |
 | Accelerated FHE inference and querying | LatticaAI | Serve models and queries without exposing the end user's input or output | Closest Run Engine competitor; potential infrastructure supplier if its runtime becomes sufficiently general |
-| Multi-PET data collaboration | Duality Technologies | Query, analyze, or train across organizations using the best available PET | Broadest direct product competitor to Run's collaboration plane |
+| Multi-PET data collaboration and monetization | Duality Technologies | Query, analyze, train, or monetize across organizations using privacy-enhancing technologies | Broadest direct platform competitor; also a potential execution supplier if Run owns the exchange and settlement layer |
 | Encrypted search and cross-silo analytics | Enveil | Search, cross-match, analyze, and use AI without exposing the query or source data | Strong competitor for government, finance, and operational analytics |
 | Federated model training | Sherpa.ai | Train across data silos while records remain behind each firewall | Direct substitute for multi-holder training where federated learning is acceptable |
 | Confidential-computing AI | Opaque and other TEE platforms | Run general AI workloads with hardware isolation and attestation | Faster, more general architectural substitute with a hardware trust assumption |
@@ -77,6 +96,56 @@ the complete product combination—not merely from using FHE:
 This market map reflects publicly described products, not verified private
 capabilities. Several companies use multiple PETs, and their boundaries can
 change quickly.
+
+## Strategic correction: Run is an exchange, not an algorithm company
+
+The cryptographic algorithm should be treated as a fulfillment layer. Run may
+develop important compiler and runtime technology, but the product should not
+depend on being the only company able to execute a particular encrypted model.
+Duality already advertises FHE-based linear and logistic regression, XGBoost,
+analytics, training, tuning, validation, inference, schema alignment, and
+multi-party governance. Lattica is building an accelerated FHE runtime. Zama,
+OpenFHE, and other libraries continue to improve the underlying primitives.
+
+Run's durable product is the transaction lifecycle:
+
+1. a provider lists non-sensitive capability metadata, permitted purposes,
+   supported schemas, policy constraints, and indicative pricing;
+2. a buyer submits a typed program, required cohort, output, recipient,
+   accuracy target, execution budget, and commercial offer;
+3. Run matches the request to providers and produces a cost, feasibility, and
+   privacy-backend plan;
+4. buyer and providers directly approve the immutable computation-right
+   agreement;
+5. Run preauthorizes payment and dispatches the workload to Run Nodes and an
+   eligible execution backend;
+6. provider-controlled policy and key services approve the exact output;
+7. Run delivers the licensed result, settles the transaction, and pays each
+   provider; and
+8. the audit and entitlement ledger governs reruns, expiry, derivatives, and
+   future use.
+
+This product is analogous to combining the commercial functions of a data
+exchange with the controlled execution of a clean room. The crucial difference
+is that the unit sold is not a dataset subscription or unrestricted API. It is
+a bounded right to run one program class and receive one approved output class.
+
+### What Duality proves—and what remains open
+
+Duality proves that Run cannot claim technical novelty merely from encrypted
+training, data governance, or combining FHE with other PETs. Its FHE page also
+explicitly lists data monetization as a use case. Duality must be treated as a
+full-platform competitor, not only as a cryptography vendor.
+
+The public Duality materials reviewed for this report describe protected
+collaboration and monetization outcomes, but do not expose a public,
+self-service two-sided exchange with provider listings, bid or offer
+management, standardized computation-right contracts, escrow, transaction
+metering, multi-provider payout, or a settlement ledger. This is an observation
+about the visible product surface, not a claim about private deployments or
+roadmap. Run should compete on those market and transaction mechanics, while
+remaining able to use Duality or another vendor as an execution backend when
+commercially and technically appropriate.
 
 ## What MDClone publicly offers
 
@@ -334,23 +403,34 @@ general computation. Run cannot rely on "we use FHE" as differentiation.
 
 ## Where Run can be meaningfully different
 
-1. **Training on encrypted real contributions.** Run targets gradients, model
-   state, and optimizer updates under encryption rather than training only on a
-   synthetic export or moving raw records into a buyer-controlled environment.
-2. **Program-level rights.** The commercial object is the right to execute one
-   versioned program and receive one output class, not general access to a data
-   environment.
-3. **Cryptographic separation of duties.** Data holders keep collaboration-key
-   shares; Run coordinates but cannot decrypt or approve; the customer holds a
-   separate recipient key.
-4. **General computation substrate.** The same protocol can eventually support
-   non-healthcare workloads, including defense, financial, biological, and
-   industrial data.
-5. **Compute-linked marketplace.** Run Exchange can meter both the data-use
-   right and the serverless encrypted computation required to exercise it.
-6. **No reusable row-level artifact by default.** The customer receives a
-   model or bounded result, not a synthetic patient table that can be queried
+1. **A two-sided market for computation rights.** The commercial object is the
+   right to execute one versioned program and receive one output class, not
+   general access to a data environment.
+2. **Integrated settlement.** One transaction prices the data-use right,
+   privacy-preserving computation, governance work, output license, and
+   provider compensation. Run meters fulfillment and operates the ledger and
+   payout workflow.
+3. **Provider-side control and earnings.** Data holders configure policies,
+   approve exact terms, retain key authority, see attributed earnings, and can
+   deny output release. Run coordinates but cannot decrypt or approve on their
+   behalf.
+4. **Buyer-side developer experience.** Buyers express an intended computation
+   in familiar Python or ML frameworks and receive feasibility, accuracy,
+   privacy, price, and completion estimates before committing funds.
+5. **Backend-neutral fulfillment.** Run selects an approved FHE, MPC,
+   federated, or confidential-computing backend based on the contract. FHE is
+   the strongest initial option when neither the executor nor a hardware trust
+   root may see plaintext.
+6. **Reusable transaction standards.** Versioned schemas, computation-right
+   agreements, release policies, result licenses, audit artifacts, and pricing
+   dimensions make bilateral projects repeatable across providers.
+7. **No reusable row-level artifact by default.** The customer receives a
+   model or bounded result, not a patient-level table that can be queried
    indefinitely outside the original release decision.
+
+Encrypted training remains an important high-value workload and product
+beachhead. It should be described as a demanding transaction Run can fulfill,
+not as the company-level moat.
 
 These advantages are conditional on proving backend interoperability,
 numerical utility, threshold-key security, acceptable performance, and strong
@@ -360,17 +440,89 @@ output governance.
 
 | Competitor | Current overlap | Strategic threat | Run response |
 |---|---|---|---|
-| Duality | Multi-party governance, secure query, analytics, and collaborative ML | Highest full-platform overlap | Differentiate on FHE-native training DX, transparent program rights, exchange liquidity, and reproducible performance |
+| Duality | Multi-party governance, FHE/MPC execution, secure query, collaborative ML, and stated data-monetization use cases | Highest full-platform overlap and a credible move into transaction tooling | Differentiate on an open two-sided exchange, contracting, pricing, settlement, provider payouts, and backend neutrality; evaluate Duality as a supplier where useful |
+| AWS Data Exchange + Clean Rooms | Catalog, offers, entitlements, metered access, collaboration roles, controlled analysis, and compute billing | Strongest commercial blueprint and distribution substitute, especially for AWS-native customers | Sell the computation right rather than a transferable data asset, support provider-controlled release, and operate across clouds and on-premises nodes |
 | LatticaAI | FHE compiler, runtime, acceleration, SDK, and metered cloud execution | Highest Run Engine overlap; can expand from inference into training | Benchmark honestly, consider runtime partnership, and own multi-holder training and release governance |
 | Sherpa.ai | Multi-holder model training and regulated-industry sales | Federated learning is cheaper and more mature for many training jobs | Target workloads where exposing local updates or trusting aggregation is unacceptable; quantify the added cost |
 | MDClone | Healthcare data access, buyer workflows, and institutional network | Can satisfy many healthcare projects without expensive FHE | Integrate as a discovery/source layer and focus on real-data computations that synthesis cannot validate |
 | Enveil | Encrypted search, analytics, cross-silo workflows, government and finance | Strong enterprise credibility in Run's target verticals | Avoid generic encrypted-search positioning; lead with training, marketplace economics, and holder-governed result release |
 | Opaque/TEE platforms | General confidential AI with much lower computational friction | Buyers may accept hardware trust in exchange for model breadth and speed | State the trust-model difference precisely and reserve FHE for cases where hardware/operator trust is unacceptable |
 
+## Monetization architecture
+
+Run should charge for enabling and fulfilling a protected data transaction,
+not for access to a proprietary cryptographic algorithm. The buyer's invoice
+should make four components legible:
+
+```text
+buyer price
+  = provider data/computation-right price
+  + privacy-preserving compute and storage
+  + Run transaction and governance fee
+  + optional assurance, support, and dedicated-deployment fees
+```
+
+The provider payout is the agreed rights price minus any clearly disclosed
+exchange fee or provider service charge. Run's gross profit comes from the net
+marketplace take rate, compute margin, enterprise subscriptions, and paid
+assurance or integration services, less cloud, runtime-licensing, payment, and
+support costs. Provider payouts are gross marketplace volume, not Run revenue.
+
+### Transaction types
+
+- **Fixed approved run:** one price for one immutable workload and output.
+- **Run bundle or subscription:** a bounded number of repeated computations
+  over a period, subject to privacy-budget and release controls.
+- **Outcome or artifact license:** a trained model, score, or aggregate is
+  licensed for named fields of use, recipients, duration, and derivative uses.
+- **Private exchange:** one enterprise or consortium pays an annual platform
+  fee to operate its own provider network, with transaction and compute fees
+  on top.
+- **Reserved execution:** buyers reserve FHE or accelerator capacity for a
+  recurring collaboration, similar to serverless committed use.
+
+Per-row pricing should not be the default. It encourages volume rather than
+quality, can leak sensitive cohort information, and poorly represents the
+value of rare or complementary data. Prefer workload, outcome, cohort band,
+provider, and term-based prices, with record counts used internally for cost
+estimation where policy permits.
+
+### Settlement and release
+
+Payment should be preauthorized before expensive execution. The signed job
+manifest fixes providers, program digest, output class, recipient, attempts,
+expiry, price, compute budget, refund conditions, and payout allocation. Run
+then records metered execution and presents the exact result digest for
+provider-controlled release. Settlement occurs only under the agreed rule—for
+example, after successful computation and threshold approval of the output.
+
+Run must not become a trusted holder of decryption keys merely to control
+payment. Commercial state and cryptographic authority remain separate: Run
+can hold funds or payment authorization and coordinate the protocol, while
+the buyer and data holders retain their own key material and approve release.
+
+### Marketplace moat and operating metrics
+
+The strongest defensibility comes from liquidity and transaction data, not a
+single compiler optimization. The network should be measured by:
+
+- active and transacting data providers;
+- qualified buyer demand and gross marketplace volume;
+- proposal-to-signed-agreement and signed-agreement-to-released-result rates;
+- median time to price, contract, execute, approve, and settle a workload;
+- repeat transactions between the same and new counterparties;
+- provider earnings, payout time, and concentration;
+- compute gross margin and third-party backend cost by workload class;
+- completion, output-release, dispute, and refund rates; and
+- incremental model or business value versus the buyer's accessible-data
+  baseline.
+
 ## Competitive and partnership strategy
 
-The strongest near-term strategy is not to position Run as an ADAMS clone.
-Run should own the final high-assurance computation step.
+The strongest near-term strategy is not to position Run as an ADAMS clone or
+as another cryptography vendor. Run should own the commercial transaction and
+high-assurance fulfillment boundary, while buying or partnering for execution
+components when they meet the contract.
 
 ### Recommended wedge
 
@@ -405,6 +557,23 @@ approved cohort export locally. This would make MDClone a source-system and
 discovery partner rather than requiring Run to duplicate healthcare ingestion
 and semantic harmonization.
 
+### Duality partnership or competition
+
+Duality is the most consequential platform competitor because it already spans
+data preparation, governance, FHE/MPC execution, model training, inference,
+and data-monetization messaging. Run should assume that Duality can add deeper
+commerce features. The defensible response is to move quickly on provider
+distribution, buyer workflow, standardized rights, pricing, settlement, and
+backend choice—not to enter an algorithm benchmark contest as the primary
+strategy.
+
+Duality could still be an execution partner for transactions sourced and
+contracted through Run. Any partnership should preserve Run's independent job
+manifest, metering, audit, release, and settlement records; prevent backend
+lock-in; and make the trust and cost model visible to both counterparties. If
+Duality requires control of the customer or provider relationship, it should
+be treated as a channel and platform competitor rather than a neutral backend.
+
 ### LatticaAI partnership or competition
 
 Lattica could be either a runtime supplier or a direct engine competitor. A
@@ -424,54 +593,67 @@ throughput, memory, ciphertext size, precision, and total job cost.
 
 ## Product implications for Run
 
-1. **Lead with encrypted execution, not another data lake.** Connect to FHIR,
+1. **Build the exchange before custom cryptography.** The MVP needs provider
+   listings, buyer requests, offers, immutable computation-right agreements,
+   budgets, metering, release status, settlement, and provider payouts. Use an
+   existing backend wherever it satisfies the signed security contract.
+2. **Lead with protected outcomes, not another data lake.** Connect to FHIR,
    OMOP, warehouses, and established platforms instead of initially replacing
-   them.
-2. **Support a synthetic-development mode.** Let customers build and simulate a
+   them or selling transferable data copies.
+3. **Define a backend adapter.** Standardize capability discovery, compile,
+   key-material handoff, submit, checkpoint, attest, meter, cancel, and result
+   release so that FHE and other approved PETs can compete underneath Run.
+4. **Support a synthetic-development mode.** Let customers build and simulate a
    workload on public or synthetic data before submitting its digest for
    holder approval and real FHE execution.
-3. **Produce a fidelity delta report.** When a synthetic development dataset is
+5. **Produce a fidelity delta report.** When a synthetic development dataset is
    available, compare synthetic simulation, holder-local clear validation, FHE
    simulation, and encrypted execution.
-4. **Make program rights legible.** The UI should show the exact data fields,
-   transformations, model, output, recipient, run count, expiry, and price that
-   both sides sign.
-5. **Keep release narrow.** Models and aggregates should have minimum-cohort,
+6. **Make economics and rights legible.** The UI should show the exact data
+   fields, transformations, program, output, recipient, run count, expiry,
+   provider payout, platform fee, compute estimate, and total buyer price that
+   the parties approve.
+7. **Keep release narrow.** Models and aggregates should have minimum-cohort,
    repeated-release, extraction, and membership-inference controls.
-6. **Price the scarce outcome.** Monetize the right to compute against
+8. **Price the scarce outcome.** Monetize the right to compute against
    inaccessible real data plus metered FHE execution, rather than charging only
    for generic analytics seats.
-7. **Measure the right comparison.** The POC should compare a customer model
+9. **Measure the right comparison.** The POC should compare a customer model
    trained on its accessible subset with a Run model trained on all encrypted
    contributions, while also reporting an all-data plaintext upper bound and
    FHE simulation result.
-8. **Treat Run Engine as a replaceable backend boundary.** Preserve the option
+10. **Treat Run Engine as a replaceable backend boundary.** Preserve the option
    to use Concrete/TFHE-rs, Lattica, OpenFHE, or another runtime when it meets
    Run's key and execution contracts.
-9. **Prototype the inference path too.** Training is the differentiation, but
-   ordinary encrypted inference is needed to validate exported models and
-   prevents Lattica from owning the entire post-training lifecycle.
-10. **Make governance the durable moat.** Compiler and runtime performance can
-    be matched or purchased. Signed data rights, holder onboarding, threshold
-    release, audit evidence, marketplace liquidity, and repeatable regulated
-    workflows are harder to copy as one feature.
+11. **Prototype the inference path too.** Ordinary encrypted inference is
+    needed to validate exported models and supports recurring transactions
+    after an initial model-training job.
+12. **Make the transaction network the durable moat.** Compiler and runtime
+    performance can be matched or purchased. Provider supply, buyer demand,
+    standardized rights, price discovery, settlement history, audit evidence,
+    marketplace liquidity, and repeatable regulated workflows are harder to
+    copy as one feature.
 
 ## Bottom line
 
-MDClone validates the business premise that hospitals and life-science
-companies will pay for governed access to otherwise difficult healthcare data.
-Lattica validates the shape of an accelerated, metered FHE cloud product with
-client-held keys. Duality, Enveil, Sherpa.ai, and confidential-computing
-platforms demonstrate that buyers have several ways to collaborate on
-sensitive data without adopting Run's exact architecture.
+MDClone validates demand for governed healthcare data workflows. Lattica
+validates metered FHE infrastructure. Duality validates encrypted training,
+multi-PET collaboration, governance, and data monetization. AWS Data Exchange
+and Clean Rooms validate the separate commercial layers of catalog,
+entitlement, pricing, controlled computation, and compute billing.
 
-Run is differentiated only if it proves a narrower but harder proposition:
-multiple holders can execute an approved model-training or computation job on
-real data, under holder-controlled keys, without giving Run or the customer
-access to the records. Its moat must combine training-specific compiler
-capability, two-sided data rights, distributed key governance, narrow output
-release, and serverless execution. FHE alone is not a company-level
-differentiator.
+The strategic conclusion is not that Run needs a better cryptographic
+algorithm. It needs to own the market transaction that existing products leave
+fragmented: discover protected supply, specify a computation right, price and
+contract it, fulfill it through an approved backend, release only the licensed
+result, and settle funds to all participating data holders.
+
+If Run is only an FHE training engine, established platforms and open-source
+runtimes can match or absorb it. If Run becomes the trusted exchange where
+buyers and data holders repeatedly transact, execution backends become
+replaceable cost of goods. Run's moat is then supply, demand, rights standards,
+workflow, settlement, and reputation—while FHE remains a critical capability
+for transactions whose trust model requires it.
 
 ## Sources
 
@@ -495,6 +677,10 @@ differentiator.
 ### Other competitor materials
 
 - [Duality privacy-preserving data collaboration platform](https://dualitytech.com/platform/)
+- [Duality fully homomorphic encryption capabilities and data-monetization use case](https://dualitytech.com/platform/technology-fully-homomorphic-encryption/)
+- [AWS Data Exchange overview, products, grants, and entitlements](https://docs.aws.amazon.com/data-exchange/latest/userguide/what-is.html)
+- [AWS Data Exchange API product and metered-pricing model](https://docs.aws.amazon.com/data-exchange/latest/userguide/publish-API-product.html)
+- [AWS Clean Rooms collaboration roles and compute payer](https://docs.aws.amazon.com/clean-rooms/latest/userguide/working-with-collaborations.html)
 - [Enveil privacy-enhancing technology platform](https://www.enveil.com/)
 - [Sherpa.ai federated learning platform](https://sherpa.ai/)
 - [Opaque confidential AI platform](https://www.opaque.co/)

@@ -11,8 +11,10 @@ being pooled even when all parties would benefit from a joint model or analysis.
 
 **Run** makes those datasets computable without making them transferable. Data
 owners keep plaintext inside their infrastructure, approve a specific program
-and output policy, and send ciphertext to an FHE execution service. The buyer
-receives only the authorized result or trained model.
+and output policy, and allow an approved privacy-preserving execution path. In
+the strongest target trust model, Run Nodes encrypt the inputs and an FHE
+service computes directly on ciphertext. The buyer receives only the
+authorized result or trained model.
 
 The company combines two economic engines:
 
@@ -25,6 +27,14 @@ The company combines two economic engines:
 Enterprise governance subscriptions, dedicated deployments, and support are a
 third recurring layer. The result is a two-sided data network attached to a
 usage-based infrastructure business.
+
+Run does not depend on licensing a novel cryptographic algorithm. The durable
+commercial asset is the network and transaction layer: discover supply,
+specify a computation right, negotiate terms, meter execution, govern release,
+settle payment, and compensate providers. Run Engine is a fulfillment layer.
+It should support interchangeable FHE or other privacy backends when they meet
+the signed security and output contract. Algorithm improvements reduce cost of
+goods; they are not the primary unit sold.
 
 ## The problem
 
@@ -485,12 +495,14 @@ providers, then additional workloads under the same governance deployment.
 |---|---|---|
 | Raw-data licensing | Maximum compute flexibility | Provider loses technical control after transfer |
 | Expert/data networks such as Mercor | Proven demand for scarce training signal and managed supply | Usually create or license data rather than execute over institution-controlled ciphertext |
+| Data exchanges such as AWS Data Exchange | Catalog, commercial offers, entitlements, subscriptions, and metered access | Primarily sells access to data assets or APIs rather than one protected computation and approved result |
+| Duality Technologies | FHE/MPC collaboration, governed analytics, model training and inference, and a stated data-monetization use case | Public materials reviewed do not expose a self-service two-sided exchange with standardized computation-right offers, settlement, and multi-provider payouts |
 | Cloud clean rooms | Mature governance and cloud integration | Often cloud-specific and reliant on service or enclave trust |
 | Federated learning | Raw records stay local | Iterative coordination and potential gradient/update leakage |
 | MPC | Strong multi-party protocols | Communication-heavy and workload-specific |
 | De-identification and synthetic data | Familiar workflow and broad tool support | Utility loss and residual linkage or membership risk |
 | FHE libraries | Strong cryptographic building blocks | Lack two-sided marketplace, connectors, policy, billing, and enterprise workflow |
-| Run | Governed data access plus FHE serverless compute | Higher compute cost and a constrained program envelope |
+| Run | Governed computation-right exchange plus metered privacy-preserving execution | Must build both market liquidity and reliable fulfillment; FHE jobs have higher cost and a constrained program envelope |
 
 FHE, TEEs, MPC, federated learning, and DP can be complementary. The product
 should win workloads where hiding data from the central executor justifies FHE
@@ -516,7 +528,7 @@ The marketplace and infrastructure reinforce each other:
 ```text
 more governed data supply
     -> more valuable buyer workloads
-    -> more FHE compute volume
+    -> more protected-computation volume
     -> more provider revenue and platform optimization
     -> more governed data supply
 ```
@@ -642,8 +654,10 @@ agility.
 ### Cloud competition
 
 Cloud vendors can bundle clean rooms with storage and ML. Differentiate through
-FHE rather than enclave-only trust, cross-cloud and on-prem portability, Run
-Exchange, workload-level rights, and a backend-neutral runtime.
+Run Exchange, computation-level rights, provider payouts, cross-cloud and
+on-prem portability, and a backend-neutral runtime. FHE is a decisive
+fulfillment option when the parties reject enclave or operator trust, but the
+commercial moat is the transaction network rather than the algorithm.
 
 ### Enterprise sales cycles
 
@@ -655,11 +669,13 @@ economic value, and one accountable collaboration sponsor.
 
 Capital primarily funds:
 
-- FHE compiler, ML, and runtime engineering;
+- Run Exchange, provider onboarding, standard contracts, metering, settlement,
+  and payout operations;
+- privacy-backend integration plus selective FHE compiler, ML, and runtime
+  engineering where existing backends leave product-critical gaps;
 - data-plane connectors and secure deployment;
 - GPU performance and cost modeling;
 - security review, key management, and enterprise controls;
-- Run Exchange operations, provider onboarding, and standard contracts;
 - forward-deployed engineering for the first repeatable vertical packages.
 
 The company should not scale marketplace supply ahead of executable demand.
@@ -678,6 +694,9 @@ becoming a standard product.
 - [European Commission guidance on secondary use of health data](https://health.ec.europa.eu/ehealth-digital-health-and-care/reuse-health-data_en)
 - [NIST SP 800-171 Rev. 3](https://csrc.nist.gov/pubs/sp/800/171/r3/final)
 - [AWS Clean Rooms ML](https://docs.aws.amazon.com/clean-rooms/latest/userguide/machine-learning.html)
+- [AWS Data Exchange products, grants, and entitlements](https://docs.aws.amazon.com/data-exchange/latest/userguide/what-is.html)
+- [AWS Data Exchange API and metered-pricing model](https://docs.aws.amazon.com/data-exchange/latest/userguide/publish-API-product.html)
+- [Duality FHE collaboration, model training, and data monetization](https://dualitytech.com/platform/technology-fully-homomorphic-encryption/)
 - [Azure Confidential Clean Rooms](https://learn.microsoft.com/en-us/azure/confidential-computing/confidential-clean-rooms)
 - [Google Confidential Space](https://docs.cloud.google.com/docs/security/confidential-space)
 - [Mercor mission and expert-data model](https://www.mercor.space/mission/)
